@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGCSE BrainBoost - Premium Revision Notes</title>
+    
+    <!-- 1. Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- 3. Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- 4. Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- 5. Google Identity -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- Custom Styles -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 
+            0% { transform: translateY(0px); } 
+            50% { transform: translateY(-10px); } 
+            100% { transform: translateY(0px); } 
+        }
+        @keyframes fadeZoom {
+            0% { opacity: 0; transform: scale(0.6); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+        .animate-slide-up { animation: slideUp 0.6s ease-out forwards; }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        
+        /* Glassmorphism Utilities */
+        .glass-card { 
+            background: rgba(30, 41, 59, 0.6); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); 
+        }
+        
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0F172A; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* Intro Logo Style */
+        #intro-logo {
+            width: 280px;
+            opacity: 0;
+            animation: fadeZoom 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+    </style>
+</head>
+<body class="bg-[#0F172A] text-white antialiased scroll-smooth">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // ==========================================
+        // 1. ICONS (SVG Components)
+        // ==========================================
+        const IconBase = ({ size = 24, className = "", children, ...props }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
+                {children}
+            </svg>
+        );
+
+        const Search = (props) => <IconBase {...props}><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></IconBase>;
+        const BookOpen = (props) => <IconBase {...props}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></IconBase>;
+        const Download = (props) => <IconBase {...props}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></IconBase>;
+        const ChevronRight = (props) => <IconBase {...props}><polyline points="9 18 15 12 9 6"/></IconBase>;
+        const ChevronDown = (props) => <IconBase {...props}><polyline points="6 9 12 15 18 9"/></IconBase>;
+        const Menu = (props) => <IconBase {...props}><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></IconBase>;
+        const X = (props) => <IconBase {...props}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></IconBase>;
+        const Zap = (props) => <IconBase {...props}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></IconBase>;
+        const FileText = (props) => <IconBase {...props}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></IconBase>;
+        const CheckCircle = (props) => <IconBase {...props}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></IconBase>;
+        const Layers = (props) => <IconBase {...props}><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></IconBase>;
+        const Star = (props) => <IconBase {...props}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></IconBase>;
+        const Mail = (props) => <IconBase {...props}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></IconBase>;
+        const Instagram = (props) => <IconBase {...props}><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></IconBase>;
+        const Shield = (props) => <IconBase {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></IconBase>;
+        const Lightbulb = (props) => <IconBase {...props}><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></IconBase>;
+        const Maximize2 = (props) => <IconBase {...props}><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></IconBase>;
+        const Share2 = (props) => <IconBase {...props}><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></IconBase>;
+        const AlertTriangle = (props) => <IconBase {...props}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></IconBase>;
+        const Bookmark = (props) => <IconBase {...props}><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></IconBase>;
+        const Loader = (props) => <IconBase {...props}><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></IconBase>;
+        const Upload = (props) => <IconBase {...props}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></IconBase>;
+        const Plus = (props) => <IconBase {...props}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></IconBase>;
+        const Lock = (props) => <IconBase {...props}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></IconBase>;
+        const ArrowRight = (props) => <IconBase {...props}><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></IconBase>;
+
+        function ActivityIcon(props) { return <IconBase {...props}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></IconBase>; }
+        function CalculateIcon(props) { return <IconBase {...props}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></IconBase>; }
+        function MonitorIcon(props) { return <IconBase {...props}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></IconBase>; }
+
+        // ==========================================
+        // 2. DATA & HELPERS
+        // ==========================================
+        const getSubjectMetadata = (name) => {
+            const n = name ? name.toLowerCase() : '';
+            if (n.includes('physics')) return { Icon: Zap, color: 'text-cyan-400', bg: 'bg-cyan-500/20', gradient: 'from-cyan-500 to-blue-600' };
+            if (n.includes('chem')) return { Icon: Layers, color: 'text-purple-400', bg: 'bg-purple-500/20', gradient: 'from-purple-500 to-indigo-600' };
+            if (n.includes('bio')) return { Icon: ActivityIcon, color: 'text-emerald-400', bg: 'bg-emerald-500/20', gradient: 'from-emerald-500 to-teal-600' };
+            if (n.includes('math')) return { Icon: CalculateIcon, color: 'text-rose-400', bg: 'bg-rose-500/20', gradient: 'from-rose-500 to-pink-600' };
+            if (n.includes('ict') || n.includes('computer')) return { Icon: MonitorIcon, color: 'text-amber-400', bg: 'bg-amber-500/20', gradient: 'from-amber-500 to-orange-600' };
+            return { Icon: BookOpen, color: 'text-indigo-600', bg: 'bg-indigo-100', gradient: 'from-indigo-400 to-indigo-600' };
+        };
+
+        const MOCK_CHAPTER_CONTENT = {
+            title: 'Content Preview',
+            definitions: [
+                { term: 'Concept', def: 'A general idea or understanding of something.' },
+                { term: 'Theory', def: 'A supposition or a system of ideas intended to explain something.' }
+            ],
+            traps: ['Not reading the question carefully.', 'Forgetting units in the final answer.'],
+            related: ['Next Chapter', 'Previous Chapter'],
+            content: 'Select a PDF to download and view content.'
+        };
+
+        // ==========================================
+        // 3. SUB-COMPONENTS
+        // ==========================================
+
+        const AccordionUnit = ({ unit, subject, onChapterClick }) => {
+            const [isOpen, setIsOpen] = useState(true);
+
+            return (
+                <div className="bg-[#1E293B]/60 backdrop-blur-sm rounded-[1.5rem] shadow-sm border border-white/5 overflow-hidden transition-all hover:border-white/10 hover:shadow-md">
+                    <button onClick={() => setIsOpen(!isOpen)} className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/5 transition-colors">
+                        <span className="font-bold text-lg text-white flex items-center">{unit.title}</span>
+                        <div className={`w-8 h-8 rounded-full bg-white/5 flex items-center justify-center transition-transform duration-300 ${isOpen ? 'rotate-180 bg-[#3B82F6]/20 text-[#3B82F6]' : 'text-gray-400'}`}>
+                            <ChevronDown size={18} />
+                        </div>
+                    </button>
+                    {isOpen && (
+                        <div className="border-t border-white/5">
+                            {unit.chapters.map((chap) => (
+                                <div key={chap.id} className="p-5 px-8 hover:bg-[#3B82F6]/10 transition-colors border-b border-white/5 last:border-none flex flex-col sm:flex-row sm:items-center justify-between gap-4 group cursor-pointer" onClick={() => onChapterClick(chap)}>
+                                    <div className="flex-1">
+                                        <div className="flex items-center mb-1.5">
+                                            <div className="w-2 h-2 rounded-full bg-gray-600 mr-3 group-hover:bg-[#3B82F6] transition-colors"></div>
+                                            <h4 className="font-semibold text-gray-300 group-hover:text-[#3B82F6] transition-colors text-base">{chap.title}</h4>
+                                            {chap.hasPdf && <span className="ml-3 text-[10px] font-bold bg-[#3B82F6]/20 text-[#3B82F6] px-2.5 py-1 rounded-md uppercase tracking-wide border border-[#3B82F6]/30">PDF</span>}
+                                        </div>
+                                        <p className="text-sm text-gray-500 pl-5 group-hover:text-gray-400 transition-colors">{chap.desc}</p>
+                                    </div>
+                                    <div className="flex items-center pl-5 sm:pl-0">
+                                        <button className="px-5 py-2.5 bg-white/5 border border-white/10 text-gray-400 text-xs font-bold rounded-xl group-hover:border-[#3B82F6]/50 group-hover:text-white group-hover:bg-[#3B82F6] transition-all shadow-sm">Open Notes</button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const Navbar = ({ currentPage, navigateTo, mobileMenuOpen, setMobileMenuOpen }) => (
+            <nav className="sticky top-0 z-50 bg-[#0F172A]/90 backdrop-blur-xl border-b border-white/10 shadow-lg transition-all duration-300">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between h-20 items-center">
+                        <div onClick={() => navigateTo('home')} className="flex items-center cursor-pointer group">
+                            <div className="bg-gradient-to-tr from-[#3B82F6] to-[#8B5CF6] text-white p-2.5 rounded-xl mr-3 group-hover:scale-110 transition-transform duration-300 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                                <BookOpen size={24} />
+                            </div>
+                            <span className="font-extrabold text-2xl tracking-tight text-white">
+                                IGCSE <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6]">BrainBoost</span>
+                            </span>
+                        </div>
+                        <div className="hidden md:flex space-x-2 items-center bg-[#1E293B]/80 p-1.5 rounded-full border border-white/5 backdrop-blur-md">
+                            {['Home', 'Subjects', 'About', 'Contact'].map((item) => (
+                                <button key={item} onClick={() => navigateTo(item.toLowerCase())} className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${currentPage === item.toLowerCase() ? 'bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-white/10'}`}>
+                                    {item}
+                                </button>
+                            ))}
+                        </div>
+                        <div className="hidden md:block">
+                            <button onClick={() => navigateTo('login')} className="bg-white/10 text-white px-6 py-2.5 rounded-full text-sm font-bold border border-white/20 hover:bg-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300 backdrop-blur-md">Login</button>
+                        </div>
+                        <div className="md:hidden flex items-center">
+                            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="text-white p-2 rounded-lg hover:bg-white/10 transition-colors">{mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}</button>
+                        </div>
+                    </div>
+                </div>
+                {mobileMenuOpen && (
+                    <div className="md:hidden bg-[#0F172A]/95 backdrop-blur-xl border-t border-white/10 absolute w-full shadow-2xl animate-fade-in">
+                        <div className="px-4 pt-2 pb-6 space-y-2">
+                            {['Home', 'Subjects', 'About', 'Contact', 'Admin'].map((item) => (
+                                <button key={item} onClick={() => navigateTo(item.toLowerCase())} className="block w-full text-left px-4 py-4 rounded-xl text-lg font-bold text-gray-300 hover:text-white hover:bg-white/10 transition-all">{item}</button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </nav>
+        );
+
+        const Footer = ({ navigateTo }) => (
+            <footer className="bg-[#0F172A] text-white pt-20 pb-10 mt-auto relative overflow-hidden border-t border-white/10">
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-64 bg-gradient-to-t from-[#3B82F6]/20 to-transparent pointer-events-none"></div>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                        <div className="col-span-1 md:col-span-1">
+                            <div className="flex items-center mb-6">
+                                <div className="bg-white/5 p-2 rounded-xl border border-white/10 mr-3"><BookOpen className="text-[#3B82F6]" size={24}/></div>
+                                <span className="font-bold text-2xl tracking-tight text-white">IGCSE BrainBoost</span>
+                            </div>
+                            <p className="text-gray-400 text-sm leading-relaxed mb-6">Premium revision notes designed to help students score A* across Cambridge & Edexcel syllabuses.</p>
+                        </div>
+                        {[ { title: "Resources", links: ["Physics Notes", "Chemistry Notes", "Past Papers", "Formula Sheets"] }, { title: "Company", links: ["About Us", "Contact", "Privacy Policy", "Terms of Service"], admin: true } ].map((col, idx) => (
+                            <div key={idx}>
+                                <h4 className="font-bold mb-6 text-lg text-white">{col.title}</h4>
+                                <ul className="space-y-4 text-sm text-gray-400">
+                                    {col.links.map((link, i) => (
+                                        <li key={i} onClick={() => link === "About Us" ? navigateTo('about') : link === "Contact" ? navigateTo('contact') : null} className="hover:text-[#3B82F6] cursor-pointer transition-colors flex items-center group">
+                                            <span className="w-0 group-hover:w-2 h-0.5 bg-[#3B82F6] mr-0 group-hover:mr-2 transition-all duration-300"></span>{link}
+                                        </li>
+                                    ))}
+                                    {col.admin && <li onClick={() => navigateTo('admin')} className="hover:text-white cursor-pointer text-gray-600 hover:text-gray-400 pt-4 text-xs font-mono tracking-widest uppercase">Admin Login</li>}
+                                </ul>
+                            </div>
+                        ))}
+                        <div>
+                            <h4 className="font-bold mb-6 text-lg text-white">Stay Updated</h4>
+                            <div className="flex bg-white/5 p-1 rounded-xl border border-white/10 focus-within:border-[#3B82F6] transition-colors shadow-inner">
+                                <input type="email" placeholder="Enter email" className="bg-transparent text-white px-4 py-2 text-sm w-full focus:outline-none placeholder-gray-500" />
+                                <button className="bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] px-4 py-2 rounded-lg hover:shadow-[0_0_15px_rgba(139,92,246,0.5)] transition-all text-white shadow-lg"><ArrowRight size={18} /></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="border-t border-white/10 pt-8 text-center text-gray-500 text-sm flex flex-col gap-3">
+                        <p>© 2025 IGCSE BrainBoost. All rights reserved.</p>
+                        <p className="text-gray-600 text-xs font-medium tracking-wide uppercase opacity-70">Powered by KAVIN GOLBAL WEB DEVELOPMETN PRIVATE LIMITED.LTD</p>
+                    </div>
+                </div>
+            </footer>
+        );
+
+        const Toast = ({ notification }) => {
+            if (!notification) return null;
+            return (
+                <div className="fixed bottom-8 right-8 z-50 animate-slide-up">
+                    <div className={`rounded-2xl shadow-2xl p-5 flex items-center border ${notification.type === 'error' ? 'bg-[#1E293B] border-red-500/50 text-red-400' : 'bg-[#1E293B] border-[#3B82F6]/50 text-white'}`}>
+                        <div className={`p-2 rounded-full mr-4 ${notification.type === 'error' ? 'bg-red-500/20' : 'bg-[#3B82F6]/20'}`}>
+                            {notification.type === 'error' ? <AlertTriangle className="text-red-500" size={24}/> : <CheckCircle className="text-[#3B82F6]" size={24} />}
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-base">{notification.type === 'error' ? 'Error' : 'Success'}</h4>
+                            <p className="text-sm text-gray-400 mt-0.5">{notification.message}</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const IntroScreen = ({ onComplete }) => {
+            const audioRef = useRef(null);
+            useEffect(() => {
+                const audio = audioRef.current;
+                if (audio) {
+                    audio.volume = 0;
+                    const playPromise = audio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            let vol = 0;
+                            const interval = setInterval(() => {
+                                if (vol < 1.0) { vol += 0.05; audio.volume = Math.min(vol, 1.0); } 
+                                else { clearInterval(interval); }
+                            }, 120);
+                        }).catch((err) => { console.log("Autoplay blocked:", err); });
+                    }
+                }
+                const timer = setTimeout(() => { onComplete(); }, 4000);
+                return () => clearTimeout(timer);
+            }, [onComplete]);
+
+            return (
+                <div className="fixed inset-0 bg-black flex items-center justify-center z-[100] overflow-hidden">
+                    <img id="intro-logo" src="https://lh3.googleusercontent.com/rd-gg/AIJ2gl-wDiZkVItQsPUhl-LuIjorFkes5nSB5qs3YdVqDS5_R2eTQEhvCYgHbW_Xx99TNGgN40xtB5PJ_yp7uKLqeqdVQXdaXJ-HetGH34bp1eEb3A9ACHoiH-FA7IIEHlzX5na3mibnqQmYiGEKvPYg5X7d7ycfAbF_nRAVKrILVrRgUQG2e8m2VNuEZVn3Rxp3BTq-dDoCfPZ0wTJiO-3SOdHxzCZYvWNvfS_BYYwnYST0JwZf8gqJ47xaD-4vDjhyd2WMyN-SGQFKNdd5IRv9GjrzviCME0XSQc9URc7uqYw5sTSgxnY48I2CqxsGTyTAxnpAS0lvfzhJIo1dyRcu1SgWvSswbtuck41oE1liMu3qA1XX1Ail9xcZip4tNm-PYIEdI8FByvR4Xtq6aIy1j51s5F1XQR9ed-xYalOHhNsWSbql5ONg_igTcCYLonTPyY4Zu8_DcC8tteYyJ4Mcfpptqa35I1Fs5Zymh71X8ENAjssynxsDGDnY_hRWWhzDdul6KJYYTiVFsVoJkGIKytTYvCCy5a90oFLykcCYT9wuwnyFAV8l6UO43dFrhknT68vTLwFRhhO5ojAxXuNBghiL9K59PkFFXvt4pBGT2DKKP7ni6U11nU1hVrZQpeYSYa6sBuxv58_1gcd0m5UcwR9SlODhUqEDmeOouklAQGsUsjvKlIoEysmxF4DXrIMwoNziO265onDVSaWzJdGaxNezNHQJZkCHOlD5H1U4TmwgtBrEwFJ_Ud_QBGuaSYUDhN56RXiGPUcipHxfrTcFiw8wHFc7l04TBWnNVVA2sGSwhaArhajXiNd4mt0_VwnRHFuWBvuXkepvS7d948l-vb1BwJa_Zi75os70lD1ex57bxUBmrsyxGvTeGzm9MoHfnDaDvocHiYvAWTdCVsv1IZIIHEcGYGz14Ph_yV7ZcimOd67d3cNU_wwClveluAzuWpAr0I7mzjqzSWukgRW4QSpdKGhpUHKqySZ-cZ5-C8gBjj1c3DuS2rCF3G-7LjkpWrp3J5eFcRxGTgTEHbIXkX89MCTLMGodXBTquR7Q6_IKKfcAR5OobAZKou5J05RT1sDr_vV2oK6gwEUHF237BiFhD28rmMnvrxN6CMuRUOUp72HnD0EWdzFBNR73wfNGcf8ABnz_Rn2U5boMX6aQzuQPZ69A7tYX1Uf4SZkDB4gSPonfepqJkuh2eHjvUu8XktXJkbsVyWiy85gn9IpgIBBGBj4HqX_FkOxAirWtlF91VbWew_haU1fYTMoEgtV0XJLYI8I08MlhBuQUFSUfjwpoKQBHowE32QlFQWKGyIIepoKWKDvhMA2mbzqJe2SbJzBRycRlHUldB4ALc3Lt-lC2DNS4wA_qjHlHI_dcnxK4Z1MpdvjOwppZbHXuyTV-b8FJubI217wFTfi4qAyOxnwu23bWGBQ=s1024-rj" alt="Logo" className="object-contain" />
+                    <audio ref={audioRef} src="Sonapareeya-Musiq.mp3" preload="auto" />
+                </div>
+            );
+        };
+
+        const LoginPage = () => {
+            useEffect(() => {
+                const script = document.createElement('script');
+                script.src = "https://accounts.google.com/gsi/client";
+                script.async = true;
+                script.defer = true;
+                document.body.appendChild(script);
+                return () => { if (document.body.contains(script)) document.body.removeChild(script); }
+            }, []);
+
+            return (
+                <div className="min-h-screen bg-[#0F172A] flex items-center justify-center py-20 px-4 animate-fade-in relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#3B82F6] rounded-full blur-[120px] opacity-10 animate-float"></div>
+                    <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#8B5CF6] rounded-full blur-[120px] opacity-10 animate-float" style={{animationDelay: '2s'}}></div>
+                    <div className="bg-[#1E293B]/80 backdrop-blur-xl p-10 rounded-[2rem] shadow-2xl w-full max-w-md text-center border border-white/10 relative z-10">
+                        <div className="mb-6 flex justify-center">
+                            <div className="bg-gradient-to-tr from-[#3B82F6] to-[#8B5CF6] p-4 rounded-2xl shadow-[0_0_20px_rgba(139,92,246,0.4)]"><BookOpen className="text-white w-8 h-8" /></div>
+                        </div>
+                        <h2 className="text-3xl font-extrabold text-white mb-2 tracking-tight">Welcome Back</h2>
+                        <p className="text-gray-400 mb-8 font-medium">Sign in to access your premium notes.</p>
+                        <div className="flex flex-col items-center justify-center gap-4">
+                            <div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID" data-login_uri="https://yourwebsite.com/login-handler" data-auto_prompt="false"></div>
+                            <div className="g_id_signin" data-type="standard" data-size="large" data-theme="filled_black" data-text="sign_in_with" data-shape="pill" data-logo_alignment="left"></div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const AdminPanel = ({ supabaseUrl, supabaseKey, showNotification }) => {
+            const [authorized, setAuthorized] = useState(false);
+            const [password, setPassword] = useState('');
+            const [subjects, setSubjects] = useState([]);
+            const [newSubjectName, setNewSubjectName] = useState('');
+            const [newChapterTitle, setNewChapterTitle] = useState('');
+            const [selectedSubjectId, setSelectedSubjectId] = useState('');
+            const [uploadSubjectId, setUploadSubjectId] = useState('');
+            const [uploadChapters, setUploadChapters] = useState([]);
+            const [uploadChapterId, setUploadChapterId] = useState('');
+            const [uploadFile, setUploadFile] = useState(null);
+            const [isUploading, setIsUploading] = useState(false);
+
+            useEffect(() => { if (authorized) loadSubjects(); }, [authorized]);
+            useEffect(() => { if (uploadSubjectId) loadChaptersForUpload(uploadSubjectId); else { setUploadChapters([]); setUploadChapterId(''); } }, [uploadSubjectId]);
+
+            const checkPassword = (e) => {
+                e.preventDefault();
+                if (password === 'admin123') { setAuthorized(true); showNotification('Access Granted', 'success'); } 
+                else showNotification('Access Denied: Incorrect Password', 'error');
+            };
+
+            const loadSubjects = async () => {
+                try {
+                    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                    const { data, error } = await supabase.from('subjects').select('*').order('name', { ascending: true });
+                    if (error) throw error;
+                    setSubjects(data);
+                } catch (err) { console.error(err); showNotification('Error loading subjects', 'error'); }
+            };
+
+            const loadChaptersForUpload = async (subjectId) => {
+                try {
+                    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                    const { data, error } = await supabase.from('chapters').select('*').eq('subject_id', subjectId).order('title', { ascending: true });
+                    if (error) throw error;
+                    setUploadChapters(data);
+                } catch (err) { console.error(err); showNotification('Error loading chapters', 'error'); }
+            };
+
+            const addSubject = async () => {
+                if (!newSubjectName) return;
+                try {
+                    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                    const { error } = await supabase.from('subjects').insert([{ name: newSubjectName }]);
+                    if (error) throw error;
+                    showNotification('Subject Added!', 'success');
+                    setNewSubjectName('');
+                    loadSubjects();
+                } catch (err) { showNotification(err.message, 'error'); }
+            };
+
+            const addChapter = async () => {
+                if (!newChapterTitle || !selectedSubjectId) { showNotification('Please select subject and enter title', 'error'); return; }
+                try {
+                    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                    const { error } = await supabase.from('chapters').insert([{ title: newChapterTitle, subject_id: selectedSubjectId }]);
+                    if (error) throw error;
+                    showNotification('Chapter Added!', 'success');
+                    setNewChapterTitle('');
+                    if (uploadSubjectId === selectedSubjectId) loadChaptersForUpload(selectedSubjectId);
+                } catch (err) { showNotification(err.message, 'error'); }
+            };
+
+            const uploadPDF = async () => {
+                if (!uploadChapterId || !uploadFile) { showNotification('Please select chapter and file', 'error'); return; }
+                setIsUploading(true);
+                try {
+                    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                    const filePath = `pdfs/${Date.now()}-${uploadFile.name}`;
+                    const { data: uploadData, error: uploadError } = await supabase.storage.from('notes').upload(filePath, uploadFile);
+                    if (uploadError) throw uploadError;
+                    const { data: urlData } = supabase.storage.from('notes').getPublicUrl(filePath);
+                    const { error: dbError } = await supabase.from('notes').insert([{ chapter_id: uploadChapterId, pdf_url: urlData.publicUrl, title: uploadFile.name }]);
+                    if (dbError) throw dbError;
+                    showNotification('PDF Uploaded Successfully!', 'success');
+                    setUploadFile(null);
+                } catch (err) { showNotification('Upload Failed: ' + err.message, 'error'); } finally { setIsUploading(false); }
+            };
+
+            if (!authorized) {
+                return (
+                    <div className="min-h-screen bg-[#0F172A] flex items-center justify-center p-4 animate-fade-in relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#1E293B] to-[#0F172A]"></div>
+                        <div className="bg-[#1E293B]/80 backdrop-blur-xl p-8 rounded-[2rem] shadow-2xl w-full max-w-sm border border-white/10 transform transition-all hover:scale-105 relative z-10">
+                            <div className="flex justify-center mb-6 text-[#3B82F6] bg-white/5 p-4 rounded-full w-20 h-20 mx-auto items-center shadow-inner border border-white/5"><Lock size={32} /></div>
+                            <h2 className="text-2xl font-bold text-center text-white mb-2">Admin Panel</h2>
+                            <p className="text-center text-gray-400 mb-6 text-sm">Authorized personnel only</p>
+                            <form onSubmit={checkPassword}>
+                                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter Password" className="w-full bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 focus:ring-4 focus:ring-[#3B82F6]/20 focus:border-[#3B82F6] outline-none mb-4 transition-all placeholder-gray-500"/>
+                                <button type="submit" className="w-full bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white font-bold py-4 rounded-xl hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all transform active:scale-95">Unlock Dashboard</button>
+                            </form>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen bg-[#0F172A] pb-20 pt-10 animate-slide-up">
+                    <div className="max-w-4xl mx-auto px-4">
+                        <h1 className="text-4xl font-extrabold text-white mb-8 flex items-center tracking-tight"><Shield className="mr-4 text-[#3B82F6]" size={32} /><span className="bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-transparent bg-clip-text">Admin Dashboard</span></h1>
+                        <div className="grid gap-8">
+                            <div className="bg-[#1E293B]/80 backdrop-blur-md p-8 rounded-[1.5rem] shadow-lg border border-white/10 hover:shadow-2xl transition-shadow">
+                                <h3 className="font-bold text-lg mb-6 flex items-center text-white"><div className="p-2 bg-teal-500/20 rounded-lg mr-3"><Layers className="text-teal-400" size={20}/></div>Add New Subject</h3>
+                                <div className="flex gap-4">
+                                    <input value={newSubjectName} onChange={(e) => setNewSubjectName(e.target.value)} placeholder="Subject Name" className="flex-1 bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 outline-none focus:border-[#3B82F6] focus:ring-4 focus:ring-blue-500/20 transition-all placeholder-gray-500"/>
+                                    <button onClick={addSubject} className="bg-[#3B82F6] text-white px-8 rounded-xl font-bold hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30 transition-all transform active:scale-95">Add</button>
+                                </div>
+                            </div>
+                            <div className="bg-[#1E293B]/80 backdrop-blur-md p-8 rounded-[1.5rem] shadow-lg border border-white/10 hover:shadow-2xl transition-shadow">
+                                <h3 className="font-bold text-lg mb-6 flex items-center text-white"><div className="p-2 bg-purple-500/20 rounded-lg mr-3"><BookOpen className="text-purple-400" size={20}/></div>Create Chapter</h3>
+                                <div className="grid gap-4 md:grid-cols-2">
+                                    <select value={selectedSubjectId} onChange={(e) => setSelectedSubjectId(e.target.value)} className="bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 outline-none focus:border-[#3B82F6] focus:ring-4 focus:ring-blue-500/20 transition-all"><option value="">Select Subject</option>{subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
+                                    <input value={newChapterTitle} onChange={(e) => setNewChapterTitle(e.target.value)} placeholder="Chapter Title" className="bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 outline-none focus:border-[#3B82F6] focus:ring-4 focus:ring-blue-500/20 transition-all placeholder-gray-500"/>
+                                </div>
+                                <button onClick={addChapter} className="mt-6 w-full bg-white/5 border border-white/10 text-white py-4 rounded-xl font-bold hover:bg-white/10 hover:shadow-lg transition-all transform active:scale-95 flex items-center justify-center"><Plus className="mr-2" size={20}/> Create Chapter</button>
+                            </div>
+                            <div className="bg-[#1E293B]/80 backdrop-blur-md p-8 rounded-[1.5rem] shadow-lg border border-white/10 hover:shadow-2xl transition-shadow">
+                                <h3 className="font-bold text-lg mb-6 flex items-center text-white"><div className="p-2 bg-orange-500/20 rounded-lg mr-3"><Upload className="text-orange-400" size={20}/></div>Upload Notes</h3>
+                                <div className="grid gap-4">
+                                    <select value={uploadSubjectId} onChange={(e) => setUploadSubjectId(e.target.value)} className="bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 outline-none focus:border-[#3B82F6] focus:ring-4 focus:ring-blue-500/20 transition-all"><option value="">1. Select Subject</option>{subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
+                                    <select value={uploadChapterId} onChange={(e) => setUploadChapterId(e.target.value)} className="bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 outline-none disabled:bg-[#0F172A]/50 disabled:text-gray-600 focus:border-[#3B82F6] focus:ring-4 focus:ring-blue-500/20 transition-all" disabled={!uploadSubjectId}><option value="">2. Select Chapter</option>{uploadChapters.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}</select>
+                                    <div className="border-2 border-dashed border-white/10 rounded-2xl p-10 text-center hover:bg-white/5 hover:border-[#3B82F6]/50 transition-all relative cursor-pointer group">
+                                        <input type="file" accept="application/pdf" onChange={(e) => setUploadFile(e.target.files[0])} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
+                                        <div className="pointer-events-none group-hover:scale-105 transition-transform duration-300">
+                                            <div className="w-16 h-16 bg-[#3B82F6]/10 text-[#3B82F6] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#3B82F6]/20"><Upload size={32}/></div>
+                                            <p className="text-base text-gray-400 font-medium">{uploadFile ? <span className="text-[#3B82F6] font-bold text-lg">{uploadFile.name}</span> : "Drag PDF here or click to browse"}</p>
+                                        </div>
+                                    </div>
+                                    <button onClick={uploadPDF} disabled={isUploading} className={`w-full py-4 rounded-xl font-bold text-white text-lg transition-all transform active:scale-95 shadow-lg ${isUploading ? 'bg-gray-600' : 'bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] hover:shadow-[0_0_20px_rgba(139,92,246,0.4)]'}`}>{isUploading ? <span className="flex items-center justify-center"><Loader className="animate-spin mr-2"/> Uploading...</span> : 'Upload PDF'}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // ==========================================
+        // 4. MAIN APP COMPONENT
+        // ==========================================
+        const App = () => {
+            const [currentPage, setCurrentPage] = useState('home');
+            const [showIntro, setShowIntro] = useState(true); 
+            const [selectedSubject, setSelectedSubject] = useState(null);
+            const [selectedChapter, setSelectedChapter] = useState(null);
+            const [searchQuery, setSearchQuery] = useState('');
+            const [searchResults, setSearchResults] = useState([]);
+            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            const [notification, setNotification] = useState(null);
+            const [subjectsData, setSubjectsData] = useState([]);
+            const [isLoading, setIsLoading] = useState(true);
+            const [isSupabaseReady, setIsSupabaseReady] = useState(false);
+
+            const supabaseUrl = 'https://emrtjgbniuicqnakwmwm.supabase.co'; 
+            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtcnRqZ2JuaXVpY3FuYWt3bXdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQzODQ5NjQsImV4cCI6MjA3OTk2MDk2NH0.7q85t3wJhGswvd9CogAJTKAd4gUR9_CGsM_Z7syLATw';
+
+            useEffect(() => {
+                if (window.supabase) { setIsSupabaseReady(true); return; }
+                const interval = setInterval(() => {
+                    if (window.supabase) {
+                        setIsSupabaseReady(true);
+                        clearInterval(interval);
+                    }
+                }, 100);
+                return () => clearInterval(interval);
+            }, []);
+
+            useEffect(() => {
+                async function fetchData() {
+                    if (!isSupabaseReady) return;
+                    try {
+                        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                        const { data: subjects, error: subError } = await supabase.from("subjects").select("*").order("name", { ascending: true });
+                        if (subError) throw subError;
+                        const builtSubjects = [];
+                        for (let subject of subjects) {
+                            const meta = getSubjectMetadata(subject.name);
+                            const subjectObj = { id: subject.id, title: subject.name, IconComponent: meta.Icon, color: meta.color, bgColor: meta.bg, gradient: meta.gradient, description: subject.description || 'Comprehensive study guide.', fullDescription: `Complete topic-by-topic notes for ${subject.name}.`, units: [], chapterCount: 0 };
+                            const { data: chapters } = await supabase.from("chapters").select("*").eq("subject_id", subject.id).order("title", { ascending: true });
+                            if (chapters) {
+                                let totalNotes = 0;
+                                for (let chapter of chapters) {
+                                   const { data: notes } = await supabase.from("notes").select("*").eq("chapter_id", chapter.id);
+                                   const mappedNotes = notes ? notes.map(note => ({ id: note.id, title: note.title || 'Untitled Note', desc: note.description || 'Click to view PDF.', hasPdf: !!note.pdf_url, pdfUrl: note.pdf_url })) : [];
+                                   subjectObj.units.push({ title: chapter.title, chapters: mappedNotes });
+                                   totalNotes += mappedNotes.length;
+                                }
+                                subjectObj.chapterCount = totalNotes;
+                            }
+                            builtSubjects.push(subjectObj);
+                        }
+                        setSubjectsData(builtSubjects);
+                    } catch (error) { console.error("Error fetching data:", error); showNotification("Failed to load content.", "error"); } finally { setIsLoading(false); }
+                }
+                fetchData();
+            }, [isSupabaseReady]);
+
+            useEffect(() => { window.scrollTo(0, 0); }, [currentPage, selectedSubject, selectedChapter]);
+
+            const showNotification = (message, type = 'success') => { setNotification({ message, type }); setTimeout(() => setNotification(null), 3000); };
+
+            const navigateTo = (page, subject = null, chapter = null) => {
+                if (subject) setSelectedSubject(subject);
+                if (chapter) setSelectedChapter(chapter);
+                setCurrentPage(page);
+                setMobileMenuOpen(false);
+                setSearchQuery(''); 
+            };
+
+            useEffect(() => {
+                if (searchQuery.length < 2) { setSearchResults([]); return; }
+                const query = searchQuery.toLowerCase();
+                let results = [];
+                subjectsData.forEach(sub => {
+                    if (sub.title.toLowerCase().includes(query)) results.push({ type: 'subject', data: sub, label: `Subject: ${sub.title}` });
+                    if (sub.units) {
+                        sub.units.forEach(unit => {
+                            unit.chapters.forEach(chap => {
+                                if (chap.title.toLowerCase().includes(query)) results.push({ type: 'chapter', data: chap, subject: sub, label: `Topic: ${chap.title}` });
+                            });
+                        });
+                    }
+                });
+                setSearchResults(results);
+            }, [searchQuery, subjectsData]);
+
+            return (
+                <div className="font-sans text-white antialiased scroll-smooth bg-[#0F172A]">
+                    {showIntro && <IntroScreen onComplete={() => setShowIntro(false)} />}
+                    <Navbar currentPage={currentPage} navigateTo={navigateTo} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
+                    <main className="min-h-screen">
+                        {currentPage === 'home' && (
+                            <div className="animate-fade-in">
+                                <div className="relative bg-[#0F172A] overflow-hidden pt-20 pb-40">
+                                    <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] rounded-full bg-[#3B82F6] blur-[150px] opacity-20 animate-float"></div>
+                                    <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[600px] h-[600px] rounded-full bg-[#8B5CF6] blur-[150px] opacity-20 animate-float" style={{animationDelay: '2s'}}></div>
+                                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                                        <div className="inline-flex items-center gap-2 py-2 px-4 rounded-full bg-white/5 border border-white/10 text-[#3B82F6] text-xs font-bold tracking-wider uppercase mb-8 shadow-lg backdrop-blur-sm animate-slide-up"><span className="w-2 h-2 rounded-full bg-[#3B82F6] animate-pulse"></span> New 2025 Syllabus Updated</div>
+                                        <h1 className="text-6xl md:text-8xl font-extrabold text-white mb-8 tracking-tight leading-none animate-slide-up" style={{animationDelay: '0.1s'}}>IGCSE <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3B82F6] via-[#8B5CF6] to-[#3B82F6] animate-gradient-x">BrainBoost</span></h1>
+                                        <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed animate-slide-up" style={{animationDelay: '0.2s'}}>Crystal-clear notes for Physics, Chemistry, Biology, ICT & Math. Designed specifically for <span className="text-white font-bold underline decoration-[#3B82F6] decoration-4 underline-offset-4">high scores</span> and rapid revision.</p>
+                                        <div className="flex flex-col sm:flex-row justify-center gap-5 mb-24 animate-slide-up" style={{animationDelay: '0.3s'}}>
+                                            <button onClick={() => navigateTo('subjects')} className="bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white px-10 py-5 rounded-2xl font-bold text-lg shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:shadow-[0_0_50px_rgba(59,130,246,0.6)] hover:-translate-y-1 transition-all flex items-center justify-center group">Explore Subjects <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} /></button>
+                                            <button onClick={() => showNotification("Redirecting to Premium Bundle purchase...")} className="bg-white/5 text-white border border-white/10 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-white/10 hover:border-white/20 transition-all flex items-center justify-center backdrop-blur-sm"><Download className="mr-2" size={20} /> Full Notes Pack</button>
+                                        </div>
+                                        <div className="max-w-2xl mx-auto relative group animate-slide-up" style={{animationDelay: '0.4s'}}>
+                                            <div className="absolute inset-0 bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+                                            <div className="relative bg-[#1E293B]/80 backdrop-blur-xl rounded-3xl shadow-2xl flex items-center p-2 border border-white/10 group-focus-within:border-[#3B82F6]/50 transition-colors">
+                                                <div className="pl-4 pr-2 text-gray-400 group-focus-within:text-[#3B82F6] transition-colors"><Search size={24} /></div>
+                                                <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search any topic... e.g., Forces, Acids, Enzymes" className="w-full py-4 px-2 text-lg outline-none bg-transparent placeholder-gray-500 text-white"/>
+                                            </div>
+                                            {searchResults.length > 0 && (
+                                                <div className="absolute w-full mt-4 bg-[#1E293B]/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 overflow-hidden z-20 text-left animate-fade-in">
+                                                    {searchResults.map((res, idx) => (
+                                                        <div key={idx} onClick={() => { if(res.type === 'subject') navigateTo('subject-detail', res.data); else navigateTo('chapter-view', res.subject, res.data); }} className="px-6 py-4 hover:bg-white/5 cursor-pointer border-b border-white/5 last:border-none group transition-colors">
+                                                            <p className="font-bold text-white text-sm group-hover:text-[#3B82F6]">{res.label}</p>
+                                                            <p className="text-xs text-gray-400 truncate">{res.data.desc || res.data.description}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-20 pb-24">
+                                   <div className="flex justify-between items-end mb-8">
+                                    <div><h2 className="text-2xl font-bold text-white">Popular Subjects</h2></div>
+                                    <button onClick={() => navigateTo('subjects')} className="hidden md:flex items-center text-[#3B82F6] font-bold text-sm hover:text-white transition-colors bg-white/5 border border-white/10 px-4 py-2 rounded-full backdrop-blur-sm">View All <ChevronRight size={16} className="ml-1"/></button>
+                                   </div>
+                                   {isLoading ? (
+                                      <div className="flex justify-center py-20 bg-[#1E293B]/50 rounded-3xl shadow-sm border border-white/5"><div className="animate-spin text-[#3B82F6]"><Loader size={40}/></div></div>
+                                   ) : (
+                                      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                                         {subjectsData.map((subject, idx) => (
+                                           <div key={subject.id} onClick={() => navigateTo('subject-detail', subject)} className="glass-card p-6 rounded-[2rem] hover:-translate-y-2 hover:shadow-[0_10px_30px_-10px_rgba(59,130,246,0.3)] transition-all duration-300 cursor-pointer group flex flex-col items-center text-center h-full" style={{animationDelay: `${idx * 0.1}s`}}>
+                                              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${subject.gradient || 'from-gray-700 to-gray-600'} flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform duration-300 text-white`}>
+                                                 {subject.IconComponent ? <subject.IconComponent size={32} /> : null}
+                                              </div>
+                                              <h3 className="font-bold text-lg text-white mb-2">{subject.title}</h3>
+                                              <p className="text-xs text-gray-300 font-medium mb-4 bg-white/10 px-3 py-1 rounded-full border border-white/5">{subject.chapterCount} Notes</p>
+                                              <p className="text-sm text-gray-400 line-clamp-2 leading-relaxed">{subject.description}</p>
+                                           </div>
+                                         ))}
+                                      </div>
+                                   )}
+                                </div>
+                                <div className="bg-[#0F172A] py-24 border-t border-white/5 relative">
+                                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                                        <div className="text-center mb-20">
+                                            <span className="text-[#3B82F6] font-bold tracking-widest uppercase text-xs mb-3 block">Why Choose Us</span>
+                                            <h2 className="text-4xl font-extrabold text-white mb-6">Master Your Exams</h2>
+                                            <p className="text-gray-400 max-w-2xl mx-auto text-lg">We cut out the fluff. Everything you need to know, organized perfectly for revision.</p>
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                                            {[
+                                                { icon: <CheckCircle size={32} className="text-white" />, color: 'bg-emerald-500', title: 'Syllabus Aligned', desc: '100% coverage of Cambridge & Edexcel topics.' },
+                                                { icon: <Zap size={32} className="text-white" />, color: 'bg-amber-500', title: 'Fast Revision', desc: 'Condensed bullet points for quick memorization.' },
+                                                { icon: <Lightbulb size={32} className="text-white" />, color: 'bg-blue-500', title: 'Exam Tips', desc: 'Highlighted traps and common mistakes to avoid.' },
+                                                { icon: <Download size={32} className="text-white" />, color: 'bg-rose-500', title: 'Instant Download', desc: 'Get PDF access immediately after selection.' },
+                                            ].map((feature, idx) => (
+                                                <div key={idx} className="flex flex-col items-center text-center p-8 bg-[#1E293B]/50 rounded-[2rem] hover:bg-[#1E293B] hover:shadow-2xl transition-all duration-300 group border border-white/5 hover:border-white/10">
+                                                    <div className={`mb-6 ${feature.color} p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300`}>{feature.icon}</div>
+                                                    <h3 className="font-bold text-xl text-white mb-3">{feature.title}</h3>
+                                                    <p className="text-gray-400 leading-relaxed">{feature.desc}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {currentPage === 'subjects' && (
+                            <div className="bg-[#0F172A] min-h-screen pb-20 animate-fade-in pt-20">
+                                <div className="max-w-7xl mx-auto px-4 text-center mb-16">
+                                    <h1 className="text-5xl font-extrabold mb-6 tracking-tight text-white">Choose Your Subject</h1>
+                                    <p className="text-gray-400 max-w-2xl mx-auto text-lg">Select a subject to access comprehensive chapter notes, formula sheets, and past paper questions.</p>
+                                </div>
+                                <div className="max-w-7xl mx-auto px-4">
+                                    {isLoading ? (
+                                        <div className="flex justify-center bg-[#1E293B]/50 p-20 rounded-[2rem] shadow-sm border border-white/5"><div className="animate-spin text-[#3B82F6]"><Loader size={40}/></div></div>
+                                    ) : (
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            {subjectsData.map((subject) => (
+                                                <div key={subject.id} onClick={() => navigateTo('subject-detail', subject)} className="bg-[#1E293B]/60 backdrop-blur-md p-8 rounded-[2rem] shadow-xl border border-white/5 hover:border-[#3B82F6]/30 hover:bg-[#1E293B]/80 hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col md:flex-row items-start md:items-center gap-8 group">
+                                                    <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br ${subject.gradient || 'from-gray-700 to-gray-600'} flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-lg text-white`}>
+                                                        {subject.IconComponent ? <subject.IconComponent size={40} /> : null}
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <h2 className="text-2xl font-bold text-white mb-2 group-hover:text-[#3B82F6] transition-colors">{subject.title}</h2>
+                                                        <p className="text-gray-400 mb-5 leading-relaxed">{subject.fullDescription}</p>
+                                                        <div className="flex gap-3">
+                                                            <span className="bg-[#3B82F6]/10 text-[#3B82F6] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border border-[#3B82F6]/20">{subject.chapterCount} Notes</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        {currentPage === 'subject-detail' && selectedSubject && (
+                            <div className="bg-[#0F172A] min-h-screen pb-20 animate-fade-in">
+                                <div className="bg-[#1E293B]/50 border-b border-white/5 pb-16 pt-10 relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 p-20 opacity-5 pointer-events-none grayscale">
+                                        {selectedSubject.IconComponent ? <selectedSubject.IconComponent size={300} className="text-white" /> : null}
+                                    </div>
+                                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                                        <button onClick={() => navigateTo('subjects')} className="text-gray-400 hover:text-white mb-8 flex items-center text-sm font-bold bg-white/5 hover:bg-white/10 w-fit px-4 py-2 rounded-full transition-colors border border-white/5">
+                                            <ChevronRight className="rotate-180 mr-1" size={16} /> Back to Subjects
+                                        </button>
+                                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+                                            <div className="flex items-center gap-8">
+                                                <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br ${selectedSubject.gradient} flex items-center justify-center shadow-2xl text-white`}>
+                                                    {selectedSubject.IconComponent ? <selectedSubject.IconComponent size={40} /> : null}
+                                                </div>
+                                                <div>
+                                                    <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3 tracking-tight">{selectedSubject.title} IGCSE</h1>
+                                                    <p className="text-gray-400 text-lg max-w-xl">{selectedSubject.fullDescription}</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col sm:flex-row gap-4">
+                                                <button onClick={() => showNotification("Full Bundle added to cart")} className="flex items-center justify-center px-8 py-4 bg-[#3B82F6] text-white rounded-2xl shadow-lg hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:bg-blue-600 text-sm font-bold transition-all active:scale-95">
+                                                    <Download size={20} className="mr-2" /> Download All PDFs
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+                                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                                        <div className="lg:col-span-2 space-y-6">
+                                            {selectedSubject.units && selectedSubject.units.length > 0 ? (
+                                                selectedSubject.units.map((unit, idx) => (
+                                                    <AccordionUnit key={idx} unit={unit} subject={selectedSubject} onChapterClick={(chap) => navigateTo('chapter-view', selectedSubject, chap)} />
+                                                ))
+                                            ) : (
+                                                <div className="bg-[#1E293B]/50 p-12 rounded-[2rem] text-center border-2 border-dashed border-white/10">
+                                                    <p className="text-gray-400 font-medium">No chapters found for {selectedSubject.title}.</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {currentPage === 'chapter-view' && selectedChapter && selectedSubject && (
+                            <div className="bg-[#0F172A] min-h-screen pb-20 animate-fade-in">
+                                <div className="bg-[#0F172A]/90 backdrop-blur-xl border-b border-white/10 py-4 shadow-sm sticky top-16 z-30">
+                                    <div className="max-w-7xl mx-auto px-4 flex items-center text-sm text-gray-400 font-medium">
+                                        <span onClick={() => navigateTo('subjects')} className="cursor-pointer hover:text-[#3B82F6] transition-colors">Subjects</span>
+                                        <ChevronRight size={14} className="mx-3 text-gray-600" />
+                                        <span onClick={() => navigateTo('subject-detail', selectedSubject)} className="cursor-pointer hover:text-[#3B82F6] transition-colors">{selectedSubject.title}</span>
+                                        <ChevronRight size={14} className="mx-3 text-gray-600" />
+                                        <span className="font-bold text-white bg-white/10 px-2 py-1 rounded-md">{selectedChapter.title}</span>
+                                    </div>
+                                </div>
+                                <div className="max-w-7xl mx-auto px-4 mt-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+                                    <div className="lg:col-span-3">
+                                        <div className="bg-[#1E293B]/60 backdrop-blur-md rounded-[2rem] shadow-xl border border-white/10 overflow-hidden mb-8">
+                                            <div className="flex justify-between items-center p-6 border-b border-white/10 bg-white/5">
+                                                <h2 className="font-bold text-white flex items-center text-lg">
+                                                    <div className="bg-[#3B82F6]/20 p-2 rounded-lg mr-3"><FileText size={20} className="text-[#3B82F6]" /></div>
+                                                    {selectedChapter.title}
+                                                </h2>
+                                                <div className="flex space-x-2">
+                                                    <button 
+                                                        onClick={() => {
+                                                            if (selectedChapter.pdfUrl) {
+                                                                window.open(selectedChapter.pdfUrl, '_blank');
+                                                                showNotification("Opening PDF...", "success");
+                                                            } else {
+                                                                showNotification("PDF URL not found.", "error");
+                                                            }
+                                                        }}
+                                                        className="flex items-center px-5 py-2 bg-[#3B82F6] text-white text-xs font-bold rounded-xl hover:bg-blue-600 hover:shadow-[0_0_15px_rgba(59,130,246,0.4)] transition-all active:scale-95"
+                                                    >
+                                                        <Download size={16} className="mr-2" /> Download
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="h-[800px] bg-[#0F172A] relative flex justify-center overflow-y-auto custom-scrollbar p-8">
+                                                <div className="w-full max-w-[800px] bg-white min-h-full shadow-2xl p-16 my-4 rounded-sm border-none animate-slide-up">
+                                                    <div className="border-b-4 border-[#3B82F6] pb-6 mb-10">
+                                                        <h1 className="text-4xl font-extrabold text-[#1B1F3B] mb-3">{selectedChapter.title}</h1>
+                                                        <div className="flex gap-3">
+                                                            <span className="bg-blue-50 text-blue-800 text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider">IGCSE {selectedSubject.title}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="space-y-8 text-gray-800 leading-relaxed text-lg">
+                                                        <p className="font-serif"><strong>{selectedChapter.desc}</strong></p>
+                                                        {selectedChapter.pdfUrl ? (
+                                                            <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-xl">
+                                                                <p className="font-bold text-blue-900 mb-1 flex items-center"><CheckCircle size={18} className="mr-2"/> PDF Available</p>
+                                                                <p className="text-sm text-blue-700">Click the download button above to view the full PDF notes for this chapter.</p>
+                                                            </div>
+                                                        ) : (
+                                                            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-xl">
+                                                                <p className="font-bold text-yellow-900 mb-1 flex items-center"><AlertTriangle size={18} className="mr-2"/> Preview Mode</p>
+                                                                <p className="text-sm text-yellow-800">This is a preview. No specific PDF URL was found in the database for this note.</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {currentPage === 'about' && (
+                            <div className="bg-[#0F172A] min-h-screen animate-fade-in pt-24">
+                                <div className="max-w-4xl mx-auto px-4">
+                                    <div className="text-center mb-20">
+                                        <h1 className="text-5xl font-extrabold text-white mb-8">Our Mission</h1>
+                                        <p className="text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto">We believe high-quality education should be accessible and clutter-free.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {currentPage === 'contact' && (
+                            <div className="bg-[#0F172A] min-h-screen flex items-center justify-center py-20 px-4 animate-fade-in relative overflow-hidden">
+                                <div className="bg-[#1E293B]/80 backdrop-blur-xl max-w-6xl w-full rounded-[2.5rem] shadow-2xl border border-white/10 overflow-hidden flex flex-col md:flex-row relative z-10">
+                                    <div className="bg-gradient-to-br from-[#0F172A] to-[#1E293B] p-16 md:w-2/5 flex flex-col justify-between relative overflow-hidden border-r border-white/5">
+                                        <div className="relative z-10">
+                                            <h2 className="text-4xl font-bold mb-6 text-white">Get in touch</h2>
+                                            <p className="text-gray-400 mb-12 text-lg">Found a mistake? Have a suggestion? Or just want to say hi?</p>
+                                        </div>
+                                    </div>
+                                    <div className="p-16 md:w-3/5">
+                                        <form onSubmit={(e) => { e.preventDefault(); showNotification("Message sent successfully!"); }}>
+                                            <button type="submit" className="w-full bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white font-bold py-5 rounded-xl shadow-lg hover:shadow-[0_0_25px_rgba(139,92,246,0.5)] transition-all transform active:scale-95">Send Message</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {currentPage === 'login' && <LoginPage />}
+                        {currentPage === 'admin' && <AdminPanel supabaseUrl={supabaseUrl} supabaseKey={supabaseKey} showNotification={showNotification} />}
+                    </main>
+
+                    <Footer navigateTo={navigateTo} />
+                    <Toast notification={notification} />
+                </div>
+            );
+        };
+
+        // Mount the app
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
