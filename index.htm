@@ -95,20 +95,15 @@
         const FileText = (props) => <IconBase {...props}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></IconBase>;
         const CheckCircle = (props) => <IconBase {...props}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></IconBase>;
         const Layers = (props) => <IconBase {...props}><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></IconBase>;
-        const Star = (props) => <IconBase {...props}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></IconBase>;
-        const Mail = (props) => <IconBase {...props}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></IconBase>;
-        const Instagram = (props) => <IconBase {...props}><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></IconBase>;
         const Shield = (props) => <IconBase {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></IconBase>;
         const Lightbulb = (props) => <IconBase {...props}><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></IconBase>;
-        const Maximize2 = (props) => <IconBase {...props}><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></IconBase>;
-        const Share2 = (props) => <IconBase {...props}><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></IconBase>;
         const AlertTriangle = (props) => <IconBase {...props}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></IconBase>;
-        const Bookmark = (props) => <IconBase {...props}><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></IconBase>;
         const Loader = (props) => <IconBase {...props}><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></IconBase>;
         const Upload = (props) => <IconBase {...props}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></IconBase>;
         const Plus = (props) => <IconBase {...props}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></IconBase>;
         const Lock = (props) => <IconBase {...props}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></IconBase>;
         const ArrowRight = (props) => <IconBase {...props}><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></IconBase>;
+        const ClipboardList = (props) => <IconBase {...props}><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></IconBase>;
 
         function ActivityIcon(props) { return <IconBase {...props}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></IconBase>; }
         function CalculateIcon(props) { return <IconBase {...props}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></IconBase>; }
@@ -125,17 +120,6 @@
             if (n.includes('math')) return { Icon: CalculateIcon, color: 'text-rose-400', bg: 'bg-rose-500/20', gradient: 'from-rose-500 to-pink-600' };
             if (n.includes('ict') || n.includes('computer')) return { Icon: MonitorIcon, color: 'text-amber-400', bg: 'bg-amber-500/20', gradient: 'from-amber-500 to-orange-600' };
             return { Icon: BookOpen, color: 'text-indigo-600', bg: 'bg-indigo-100', gradient: 'from-indigo-400 to-indigo-600' };
-        };
-
-        const MOCK_CHAPTER_CONTENT = {
-            title: 'Content Preview',
-            definitions: [
-                { term: 'Concept', def: 'A general idea or understanding of something.' },
-                { term: 'Theory', def: 'A supposition or a system of ideas intended to explain something.' }
-            ],
-            traps: ['Not reading the question carefully.', 'Forgetting units in the final answer.'],
-            related: ['Next Chapter', 'Previous Chapter'],
-            content: 'Select a PDF to download and view content.'
         };
 
         // ==========================================
@@ -342,6 +326,11 @@
             const [uploadChapters, setUploadChapters] = useState([]);
             const [uploadChapterId, setUploadChapterId] = useState('');
             const [uploadFile, setUploadFile] = useState(null);
+            
+            // New Syllabus Upload State
+            const [syllabusSubjectId, setSyllabusSubjectId] = useState('');
+            const [syllabusFile, setSyllabusFile] = useState(null);
+            
             const [isUploading, setIsUploading] = useState(false);
 
             useEffect(() => { if (authorized) loadSubjects(); }, [authorized]);
@@ -410,6 +399,28 @@
                     setUploadFile(null);
                 } catch (err) { showNotification('Upload Failed: ' + err.message, 'error'); } finally { setIsUploading(false); }
             };
+            
+            const uploadSyllabus = async () => {
+                if (!syllabusSubjectId || !syllabusFile) { showNotification('Please select subject and file', 'error'); return; }
+                setIsUploading(true);
+                try {
+                    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                    const filePath = `syllabus/${Date.now()}-${syllabusFile.name}`;
+                    const { data: uploadData, error: uploadError } = await supabase.storage.from('notes').upload(filePath, syllabusFile);
+                    if (uploadError) throw uploadError;
+                    const { data: urlData } = supabase.storage.from('notes').getPublicUrl(filePath);
+                    
+                    // Update subjects table with syllabus URL
+                    const { error: dbError } = await supabase
+                        .from('subjects')
+                        .update({ syllabus_url: urlData.publicUrl })
+                        .eq('id', syllabusSubjectId);
+                        
+                    if (dbError) throw dbError;
+                    showNotification('Syllabus Uploaded Successfully!', 'success');
+                    setSyllabusFile(null);
+                } catch (err) { showNotification('Upload Failed: ' + err.message, 'error'); } finally { setIsUploading(false); }
+            };
 
             if (!authorized) {
                 return (
@@ -448,8 +459,10 @@
                                 </div>
                                 <button onClick={addChapter} className="mt-6 w-full bg-white/5 border border-white/10 text-white py-4 rounded-xl font-bold hover:bg-white/10 hover:shadow-lg transition-all transform active:scale-95 flex items-center justify-center"><Plus className="mr-2" size={20}/> Create Chapter</button>
                             </div>
+                            
+                            {/* Upload Notes Section */}
                             <div className="bg-[#1E293B]/80 backdrop-blur-md p-8 rounded-[1.5rem] shadow-lg border border-white/10 hover:shadow-2xl transition-shadow">
-                                <h3 className="font-bold text-lg mb-6 flex items-center text-white"><div className="p-2 bg-orange-500/20 rounded-lg mr-3"><Upload className="text-orange-400" size={20}/></div>Upload Notes</h3>
+                                <h3 className="font-bold text-lg mb-6 flex items-center text-white"><div className="p-2 bg-orange-500/20 rounded-lg mr-3"><Upload className="text-orange-400" size={20}/></div>Upload Notes PDF</h3>
                                 <div className="grid gap-4">
                                     <select value={uploadSubjectId} onChange={(e) => setUploadSubjectId(e.target.value)} className="bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 outline-none focus:border-[#3B82F6] focus:ring-4 focus:ring-blue-500/20 transition-all"><option value="">1. Select Subject</option>{subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
                                     <select value={uploadChapterId} onChange={(e) => setUploadChapterId(e.target.value)} className="bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 outline-none disabled:bg-[#0F172A]/50 disabled:text-gray-600 focus:border-[#3B82F6] focus:ring-4 focus:ring-blue-500/20 transition-all" disabled={!uploadSubjectId}><option value="">2. Select Chapter</option>{uploadChapters.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}</select>
@@ -463,6 +476,23 @@
                                     <button onClick={uploadPDF} disabled={isUploading} className={`w-full py-4 rounded-xl font-bold text-white text-lg transition-all transform active:scale-95 shadow-lg ${isUploading ? 'bg-gray-600' : 'bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] hover:shadow-[0_0_20px_rgba(139,92,246,0.4)]'}`}>{isUploading ? <span className="flex items-center justify-center"><Loader className="animate-spin mr-2"/> Uploading...</span> : 'Upload PDF'}</button>
                                 </div>
                             </div>
+
+                            {/* Upload Syllabus Section */}
+                            <div className="bg-[#1E293B]/80 backdrop-blur-md p-8 rounded-[1.5rem] shadow-lg border border-white/10 hover:shadow-2xl transition-shadow">
+                                <h3 className="font-bold text-lg mb-6 flex items-center text-white"><div className="p-2 bg-pink-500/20 rounded-lg mr-3"><ClipboardList className="text-pink-400" size={20}/></div>Upload Syllabus PDF</h3>
+                                <div className="grid gap-4">
+                                    <select value={syllabusSubjectId} onChange={(e) => setSyllabusSubjectId(e.target.value)} className="bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 outline-none focus:border-[#3B82F6] focus:ring-4 focus:ring-blue-500/20 transition-all"><option value="">Select Subject</option>{subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
+                                    <div className="border-2 border-dashed border-white/10 rounded-2xl p-10 text-center hover:bg-white/5 hover:border-[#3B82F6]/50 transition-all relative cursor-pointer group">
+                                        <input type="file" accept="application/pdf" onChange={(e) => setSyllabusFile(e.target.files[0])} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
+                                        <div className="pointer-events-none group-hover:scale-105 transition-transform duration-300">
+                                            <div className="w-16 h-16 bg-[#ec4899]/10 text-[#ec4899] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#ec4899]/20"><Upload size={32}/></div>
+                                            <p className="text-base text-gray-400 font-medium">{syllabusFile ? <span className="text-[#ec4899] font-bold text-lg">{syllabusFile.name}</span> : "Drag Syllabus PDF here"}</p>
+                                        </div>
+                                    </div>
+                                    <button onClick={uploadSyllabus} disabled={isUploading} className={`w-full py-4 rounded-xl font-bold text-white text-lg transition-all transform active:scale-95 shadow-lg ${isUploading ? 'bg-gray-600' : 'bg-gradient-to-r from-pink-500 to-rose-500 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)]'}`}>{isUploading ? <span className="flex items-center justify-center"><Loader className="animate-spin mr-2"/> Uploading...</span> : 'Upload Syllabus'}</button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -504,12 +534,25 @@
                     if (!isSupabaseReady) return;
                     try {
                         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                        // Make sure to select all columns, including the new syllabus_url
                         const { data: subjects, error: subError } = await supabase.from("subjects").select("*").order("name", { ascending: true });
                         if (subError) throw subError;
                         const builtSubjects = [];
                         for (let subject of subjects) {
                             const meta = getSubjectMetadata(subject.name);
-                            const subjectObj = { id: subject.id, title: subject.name, IconComponent: meta.Icon, color: meta.color, bgColor: meta.bg, gradient: meta.gradient, description: subject.description || 'Comprehensive study guide.', fullDescription: `Complete topic-by-topic notes for ${subject.name}.`, units: [], chapterCount: 0 };
+                            const subjectObj = { 
+                                id: subject.id, 
+                                title: subject.name, 
+                                IconComponent: meta.Icon, 
+                                color: meta.color, 
+                                bgColor: meta.bg, 
+                                gradient: meta.gradient, 
+                                description: subject.description || 'Comprehensive study guide.', 
+                                fullDescription: `Complete topic-by-topic notes for ${subject.name}.`, 
+                                units: [], 
+                                chapterCount: 0,
+                                syllabusUrl: subject.syllabus_url // Fetching the syllabus URL
+                            };
                             const { data: chapters } = await supabase.from("chapters").select("*").eq("subject_id", subject.id).order("title", { ascending: true });
                             if (chapters) {
                                 let totalNotes = 0;
@@ -585,7 +628,7 @@
                                             {searchResults.length > 0 && (
                                                 <div className="absolute w-full mt-4 bg-[#1E293B]/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 overflow-hidden z-20 text-left animate-fade-in">
                                                     {searchResults.map((res, idx) => (
-                                                        <div key={idx} onClick={() => { if(res.type === 'subject') navigateTo('subject-detail', res.data); else navigateTo('chapter-view', res.subject, res.data); }} className="px-6 py-4 hover:bg-white/5 cursor-pointer border-b border-white/5 last:border-none group transition-colors">
+                                                        <div key={idx} onClick={() => { if(res.type === 'subject') navigateTo('subject-selection', res.data); else navigateTo('chapter-view', res.subject, res.data); }} className="px-6 py-4 hover:bg-white/5 cursor-pointer border-b border-white/5 last:border-none group transition-colors">
                                                             <p className="font-bold text-white text-sm group-hover:text-[#3B82F6]">{res.label}</p>
                                                             <p className="text-xs text-gray-400 truncate">{res.data.desc || res.data.description}</p>
                                                         </div>
@@ -605,14 +648,14 @@
                                    ) : (
                                       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
                                          {subjectsData.map((subject, idx) => (
-                                           <div key={subject.id} onClick={() => navigateTo('subject-detail', subject)} className="glass-card p-6 rounded-[2rem] hover:-translate-y-2 hover:shadow-[0_10px_30px_-10px_rgba(59,130,246,0.3)] transition-all duration-300 cursor-pointer group flex flex-col items-center text-center h-full" style={{animationDelay: `${idx * 0.1}s`}}>
-                                              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${subject.gradient || 'from-gray-700 to-gray-600'} flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform duration-300 text-white`}>
-                                                 {subject.IconComponent ? <subject.IconComponent size={32} /> : null}
-                                              </div>
-                                              <h3 className="font-bold text-lg text-white mb-2">{subject.title}</h3>
-                                              <p className="text-xs text-gray-300 font-medium mb-4 bg-white/10 px-3 py-1 rounded-full border border-white/5">{subject.chapterCount} Notes</p>
-                                              <p className="text-sm text-gray-400 line-clamp-2 leading-relaxed">{subject.description}</p>
-                                           </div>
+                                            <div key={subject.id} onClick={() => navigateTo('subject-selection', subject)} className="glass-card p-6 rounded-[2rem] hover:-translate-y-2 hover:shadow-[0_10px_30px_-10px_rgba(59,130,246,0.3)] transition-all duration-300 cursor-pointer group flex flex-col items-center text-center h-full" style={{animationDelay: `${idx * 0.1}s`}}>
+                                                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${subject.gradient || 'from-gray-700 to-gray-600'} flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform duration-300 text-white`}>
+                                                    {subject.IconComponent ? <subject.IconComponent size={32} /> : null}
+                                                </div>
+                                                <h3 className="font-bold text-lg text-white mb-2">{subject.title}</h3>
+                                                <p className="text-xs text-gray-300 font-medium mb-4 bg-white/10 px-3 py-1 rounded-full border border-white/5">{subject.chapterCount} Notes</p>
+                                                <p className="text-sm text-gray-400 line-clamp-2 leading-relaxed">{subject.description}</p>
+                                            </div>
                                          ))}
                                       </div>
                                    )}
@@ -655,7 +698,7 @@
                                     ) : (
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                             {subjectsData.map((subject) => (
-                                                <div key={subject.id} onClick={() => navigateTo('subject-detail', subject)} className="bg-[#1E293B]/60 backdrop-blur-md p-8 rounded-[2rem] shadow-xl border border-white/5 hover:border-[#3B82F6]/30 hover:bg-[#1E293B]/80 hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col md:flex-row items-start md:items-center gap-8 group">
+                                                <div key={subject.id} onClick={() => navigateTo('subject-selection', subject)} className="bg-[#1E293B]/60 backdrop-blur-md p-8 rounded-[2rem] shadow-xl border border-white/5 hover:border-[#3B82F6]/30 hover:bg-[#1E293B]/80 hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col md:flex-row items-start md:items-center gap-8 group">
                                                     <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br ${subject.gradient || 'from-gray-700 to-gray-600'} flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-lg text-white`}>
                                                         {subject.IconComponent ? <subject.IconComponent size={40} /> : null}
                                                     </div>
@@ -674,6 +717,110 @@
                             </div>
                         )}
 
+                        {/* NEW: Subject Selection Page (Split View) */}
+                        {currentPage === 'subject-selection' && selectedSubject && (
+                            <div className="bg-[#0F172A] min-h-screen pb-20 animate-fade-in flex flex-col items-center">
+                                <div className="w-full bg-[#1E293B]/50 border-b border-white/5 pb-10 pt-10 mb-10 text-center relative overflow-hidden">
+                                     <div className="absolute top-0 right-0 p-20 opacity-5 pointer-events-none grayscale">
+                                        {selectedSubject.IconComponent ? <selectedSubject.IconComponent size={300} className="text-white" /> : null}
+                                    </div>
+                                    <div className="relative z-10">
+                                         <button onClick={() => navigateTo('subjects')} className="text-gray-400 hover:text-white mb-6 flex items-center text-sm font-bold bg-white/5 hover:bg-white/10 w-fit px-4 py-2 rounded-full transition-colors border border-white/5 mx-auto">
+                                            <ChevronRight className="rotate-180 mr-1" size={16} /> Back to Subjects
+                                        </button>
+                                        <div className={`w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br ${selectedSubject.gradient} flex items-center justify-center shadow-2xl text-white mb-6`}>
+                                            {selectedSubject.IconComponent ? <selectedSubject.IconComponent size={32} /> : null}
+                                        </div>
+                                        <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3 tracking-tight">{selectedSubject.title}</h1>
+                                        <p className="text-gray-400 text-lg max-w-xl mx-auto">What would you like to study today?</p>
+                                    </div>
+                                </div>
+
+                                <div className="max-w-5xl mx-auto px-4 w-full grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    {/* Option 1: Syllabus */}
+                                    <div onClick={() => navigateTo('syllabus-view', selectedSubject)} className="bg-[#1E293B]/60 backdrop-blur-md p-10 rounded-[2.5rem] shadow-xl border border-white/5 hover:border-[#3B82F6]/50 hover:bg-[#1E293B] hover:-translate-y-2 transition-all duration-300 cursor-pointer group flex flex-col items-center text-center">
+                                        <div className="w-24 h-24 bg-pink-500/20 text-pink-400 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                            <ClipboardList size={40} />
+                                        </div>
+                                        <h2 className="text-2xl font-bold text-white mb-2 group-hover:text-pink-400 transition-colors">View Syllabus</h2>
+                                        <p className="text-gray-400">Download and view the official 2025 IGCSE syllabus PDF.</p>
+                                    </div>
+
+                                    {/* Option 2: Notes */}
+                                    <div onClick={() => navigateTo('subject-detail', selectedSubject)} className="bg-[#1E293B]/60 backdrop-blur-md p-10 rounded-[2.5rem] shadow-xl border border-white/5 hover:border-[#3B82F6]/50 hover:bg-[#1E293B] hover:-translate-y-2 transition-all duration-300 cursor-pointer group flex flex-col items-center text-center">
+                                        <div className="w-24 h-24 bg-[#3B82F6]/20 text-[#3B82F6] rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                            <BookOpen size={40} />
+                                        </div>
+                                        <h2 className="text-2xl font-bold text-white mb-2 group-hover:text-[#3B82F6] transition-colors">Revision Notes</h2>
+                                        <p className="text-gray-400">Access comprehensive chapter-wise notes and revision guides.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                        
+                        {/* SYLLABUS VIEW */}
+                        {currentPage === 'syllabus-view' && selectedSubject && (
+                            <div className="bg-[#0F172A] min-h-screen pb-20 animate-fade-in">
+                                <div className="bg-[#0F172A]/90 backdrop-blur-xl border-b border-white/10 py-4 shadow-sm sticky top-16 z-30">
+                                    <div className="max-w-7xl mx-auto px-4 flex items-center text-sm text-gray-400 font-medium">
+                                        <span onClick={() => navigateTo('subjects')} className="cursor-pointer hover:text-[#3B82F6] transition-colors">Subjects</span>
+                                        <ChevronRight size={14} className="mx-3 text-gray-600" />
+                                        <span onClick={() => navigateTo('subject-selection', selectedSubject)} className="cursor-pointer hover:text-[#3B82F6] transition-colors">{selectedSubject.title}</span>
+                                        <ChevronRight size={14} className="mx-3 text-gray-600" />
+                                        <span className="font-bold text-white bg-white/10 px-2 py-1 rounded-md">Syllabus</span>
+                                    </div>
+                                </div>
+                                <div className="max-w-5xl mx-auto px-4 mt-8">
+                                    <div className="bg-[#1E293B]/60 backdrop-blur-md rounded-[2rem] shadow-xl border border-white/10 overflow-hidden mb-8">
+                                        <div className="flex justify-between items-center p-6 border-b border-white/10 bg-white/5">
+                                            <h2 className="font-bold text-white flex items-center text-lg">
+                                                <div className="bg-pink-500/20 p-2 rounded-lg mr-3"><ClipboardList size={20} className="text-pink-400" /></div>
+                                                {selectedSubject.title} Syllabus
+                                            </h2>
+                                            <div className="flex space-x-2">
+                                                <button 
+                                                    onClick={() => {
+                                                        if (selectedSubject.syllabusUrl) {
+                                                            window.open(selectedSubject.syllabusUrl, '_blank');
+                                                            showNotification("Opening Syllabus...", "success");
+                                                        } else {
+                                                            showNotification("Syllabus not uploaded yet.", "error");
+                                                        }
+                                                    }}
+                                                    className="flex items-center px-5 py-2 bg-pink-500 text-white text-xs font-bold rounded-xl hover:bg-pink-600 hover:shadow-[0_0_15px_rgba(236,72,153,0.4)] transition-all active:scale-95"
+                                                >
+                                                    <Download size={16} className="mr-2" /> Download
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="h-[800px] bg-[#0F172A] relative flex justify-center overflow-y-auto custom-scrollbar p-8">
+                                            <div className="w-full max-w-[800px] bg-white min-h-full shadow-2xl p-16 my-4 rounded-sm border-none animate-slide-up">
+                                                 <div className="border-b-4 border-pink-500 pb-6 mb-10">
+                                                    <h1 className="text-4xl font-extrabold text-[#1B1F3B] mb-3">{selectedSubject.title} Syllabus</h1>
+                                                    <div className="flex gap-3">
+                                                        <span className="bg-pink-50 text-pink-800 text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider">Official 2025</span>
+                                                    </div>
+                                                </div>
+                                                <div className="space-y-8 text-gray-800 leading-relaxed text-lg">
+                                                    {selectedSubject.syllabusUrl ? (
+                                                        <div className="bg-pink-50 border-l-4 border-pink-500 p-6 rounded-r-xl">
+                                                            <p className="font-bold text-pink-900 mb-1 flex items-center"><CheckCircle size={18} className="mr-2"/> PDF Available</p>
+                                                            <p className="text-sm text-pink-700">Click the download button above to view the full Syllabus PDF.</p>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-xl">
+                                                            <p className="font-bold text-yellow-900 mb-1 flex items-center"><AlertTriangle size={18} className="mr-2"/> No Syllabus Found</p>
+                                                            <p className="text-sm text-yellow-800">The syllabus for this subject hasn't been uploaded by the admin yet.</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         {currentPage === 'subject-detail' && selectedSubject && (
                             <div className="bg-[#0F172A] min-h-screen pb-20 animate-fade-in">
                                 <div className="bg-[#1E293B]/50 border-b border-white/5 pb-16 pt-10 relative overflow-hidden">
@@ -681,16 +828,21 @@
                                         {selectedSubject.IconComponent ? <selectedSubject.IconComponent size={300} className="text-white" /> : null}
                                     </div>
                                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                                        <button onClick={() => navigateTo('subjects')} className="text-gray-400 hover:text-white mb-8 flex items-center text-sm font-bold bg-white/5 hover:bg-white/10 w-fit px-4 py-2 rounded-full transition-colors border border-white/5">
-                                            <ChevronRight className="rotate-180 mr-1" size={16} /> Back to Subjects
-                                        </button>
+                                        <div className="flex gap-4">
+                                            <button onClick={() => navigateTo('subjects')} className="text-gray-400 hover:text-white mb-8 flex items-center text-sm font-bold bg-white/5 hover:bg-white/10 w-fit px-4 py-2 rounded-full transition-colors border border-white/5">
+                                                <ChevronRight className="rotate-180 mr-1" size={16} /> Back to Subjects
+                                            </button>
+                                            <button onClick={() => navigateTo('subject-selection', selectedSubject)} className="text-gray-400 hover:text-white mb-8 flex items-center text-sm font-bold bg-white/5 hover:bg-white/10 w-fit px-4 py-2 rounded-full transition-colors border border-white/5">
+                                                <ChevronRight className="rotate-180 mr-1" size={16} /> Selection Menu
+                                            </button>
+                                        </div>
                                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
                                             <div className="flex items-center gap-8">
                                                 <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br ${selectedSubject.gradient} flex items-center justify-center shadow-2xl text-white`}>
                                                     {selectedSubject.IconComponent ? <selectedSubject.IconComponent size={40} /> : null}
                                                 </div>
                                                 <div>
-                                                    <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3 tracking-tight">{selectedSubject.title} IGCSE</h1>
+                                                    <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3 tracking-tight">{selectedSubject.title} Notes</h1>
                                                     <p className="text-gray-400 text-lg max-w-xl">{selectedSubject.fullDescription}</p>
                                                 </div>
                                             </div>
@@ -726,7 +878,9 @@
                                     <div className="max-w-7xl mx-auto px-4 flex items-center text-sm text-gray-400 font-medium">
                                         <span onClick={() => navigateTo('subjects')} className="cursor-pointer hover:text-[#3B82F6] transition-colors">Subjects</span>
                                         <ChevronRight size={14} className="mx-3 text-gray-600" />
-                                        <span onClick={() => navigateTo('subject-detail', selectedSubject)} className="cursor-pointer hover:text-[#3B82F6] transition-colors">{selectedSubject.title}</span>
+                                        <span onClick={() => navigateTo('subject-selection', selectedSubject)} className="cursor-pointer hover:text-[#3B82F6] transition-colors">{selectedSubject.title}</span>
+                                        <ChevronRight size={14} className="mx-3 text-gray-600" />
+                                        <span onClick={() => navigateTo('subject-detail', selectedSubject)} className="cursor-pointer hover:text-[#3B82F6] transition-colors">Notes</span>
                                         <ChevronRight size={14} className="mx-3 text-gray-600" />
                                         <span className="font-bold text-white bg-white/10 px-2 py-1 rounded-md">{selectedChapter.title}</span>
                                     </div>
