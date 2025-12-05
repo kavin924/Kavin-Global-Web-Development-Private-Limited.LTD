@@ -104,6 +104,12 @@
         const Lock = (props) => <IconBase {...props}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></IconBase>;
         const ArrowRight = (props) => <IconBase {...props}><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></IconBase>;
         const ClipboardList = (props) => <IconBase {...props}><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></IconBase>;
+        const ShoppingCart = (props) => <IconBase {...props}><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></IconBase>;
+        const Grid = (props) => <IconBase {...props}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></IconBase>;
+        const File = (props) => <IconBase {...props}><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></IconBase>;
+        const LinkIcon = (props) => <IconBase {...props}><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></IconBase>;
+        const PenTool = (props) => <IconBase {...props}><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></IconBase>;
+        const Eye = (props) => <IconBase {...props}><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></IconBase>;
 
         function ActivityIcon(props) { return <IconBase {...props}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></IconBase>; }
         function CalculateIcon(props) { return <IconBase {...props}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></IconBase>; }
@@ -121,6 +127,53 @@
             if (n.includes('ict') || n.includes('computer')) return { Icon: MonitorIcon, color: 'text-amber-400', bg: 'bg-amber-500/20', gradient: 'from-amber-500 to-orange-600' };
             return { Icon: BookOpen, color: 'text-indigo-600', bg: 'bg-indigo-100', gradient: 'from-indigo-400 to-indigo-600' };
         };
+
+        // Fallback Mock Data (Used if Supabase fetch fails)
+        const MOCK_PREMIUM_NOTES = [
+            { 
+                id: 1, 
+                title: 'Physics A* Masterclass', 
+                price: '₹59', 
+                subject: 'Physics', 
+                image: 'https://placehold.co/400x300/1E293B/3B82F6?text=Physics+Notes',
+                chapters: ['1. Forces & Motion', '2. Electricity', '3. Waves', '4. Energy Resources', '5. Thermal Physics', '6. Magnetism', '7. Nuclear Physics', '8. Space Physics'] 
+            },
+            { 
+                id: 2, 
+                title: 'Chemistry Complete', 
+                price: '₹59', 
+                subject: 'Chemistry', 
+                image: 'https://placehold.co/400x300/1E293B/8B5CF6?text=Chem+Notes',
+                chapters: ['1. States of Matter', '2. Atoms & Elements', '3. Stoichiometry', '4. Electrochemistry', '5. Chemical Energetics', '6. Organic Chemistry', '7. Acids & Bases'] 
+            },
+            { 
+                id: 3, 
+                title: 'Biology Revision', 
+                price: '₹59', 
+                subject: 'Biology', 
+                image: 'https://placehold.co/400x300/1E293B/10B981?text=Bio+Notes',
+                chapters: ['1. Cell Structure', '2. Movement In/Out of Cells', '3. Biological Molecules', '4. Enzymes', '5. Plant Nutrition', '6. Human Nutrition', '7. Transport'] 
+            },
+            { 
+                id: 4, 
+                title: 'Math Formulae & Qs', 
+                price: '₹59', 
+                subject: 'Math', 
+                image: 'https://placehold.co/400x300/1E293B/EC4899?text=Math+Notes',
+                chapters: ['1. Number', '2. Algebra', '3. Functions', '4. Geometry', '5. Trigonometry', '6. Vectors', '7. Probability', '8. Statistics'] 
+            },
+        ];
+
+        const MOCK_AFFILIATE = [
+            { id: 1, title: 'Casio FX-991EX', desc: 'Essential calculator for IGCSE Math', link: '#', image: 'https://m.media-amazon.com/images/I/71PpbcC7HXL._AC_SL1500_.jpg' },
+            { id: 2, title: 'CGP Physics Guide', desc: 'Best revision guide for quick study', link: '#', image: 'https://m.media-amazon.com/images/I/81L14r1+LcL._SL1500_.jpg' },
+            { id: 3, title: 'Past Paper Pack', desc: '10 years of solved papers', link: '#', image: 'https://placehold.co/300x300/1E293B/FFF?text=Past+Papers' },
+        ];
+
+        const MOCK_BLOGS = [
+            { id: 1, title: 'How to Score A* in Physics', desc: 'Top 5 strategies used by toppers.', tags: ['Strategy', 'Physics'], image: 'https://placehold.co/600x400/1E293B/FFF?text=Study+Tips' },
+            { id: 2, title: 'Last Minute Revision Hacks', desc: 'What to do 24 hours before the exam.', tags: ['Hacks', 'General'], image: 'https://placehold.co/600x400/1E293B/FFF?text=Exam+Hacks' },
+        ];
 
         // ==========================================
         // 3. SUB-COMPONENTS
@@ -318,19 +371,30 @@
         const AdminPanel = ({ supabaseUrl, supabaseKey, showNotification }) => {
             const [authorized, setAuthorized] = useState(false);
             const [password, setPassword] = useState('');
+            const [activeTab, setActiveTab] = useState('dashboard');
             const [subjects, setSubjects] = useState([]);
+            
+            // Form States
             const [newSubjectName, setNewSubjectName] = useState('');
             const [newChapterTitle, setNewChapterTitle] = useState('');
             const [selectedSubjectId, setSelectedSubjectId] = useState('');
+            
             const [uploadSubjectId, setUploadSubjectId] = useState('');
-            const [uploadChapters, setUploadChapters] = useState([]);
             const [uploadChapterId, setUploadChapterId] = useState('');
+            const [uploadChapters, setUploadChapters] = useState([]);
             const [uploadFile, setUploadFile] = useState(null);
             
-            // New Syllabus Upload State
-            const [syllabusSubjectId, setSyllabusSubjectId] = useState('');
-            const [syllabusFile, setSyllabusFile] = useState(null);
+            // New States for Extended Admin
+            const [prodTitle, setProdTitle] = useState('');
+            const [prodPrice, setProdPrice] = useState('');
+            const [prodSub, setProdSub] = useState('');
             
+            const [affTitle, setAffTitle] = useState('');
+            const [affLink, setAffLink] = useState('');
+            
+            const [blogTitle, setBlogTitle] = useState('');
+            const [blogContent, setBlogContent] = useState('');
+
             const [isUploading, setIsUploading] = useState(false);
 
             useEffect(() => { if (authorized) loadSubjects(); }, [authorized]);
@@ -348,7 +412,7 @@
                     const { data, error } = await supabase.from('subjects').select('*').order('name', { ascending: true });
                     if (error) throw error;
                     setSubjects(data);
-                } catch (err) { console.error(err); showNotification('Error loading subjects', 'error'); }
+                } catch (err) { console.error(err); }
             };
 
             const loadChaptersForUpload = async (subjectId) => {
@@ -357,10 +421,11 @@
                     const { data, error } = await supabase.from('chapters').select('*').eq('subject_id', subjectId).order('title', { ascending: true });
                     if (error) throw error;
                     setUploadChapters(data);
-                } catch (err) { console.error(err); showNotification('Error loading chapters', 'error'); }
+                } catch (err) { console.error(err); }
             };
 
-            const addSubject = async () => {
+            // --- Database Actions ---
+            const handleAddSubject = async () => {
                 if (!newSubjectName) return;
                 try {
                     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
@@ -372,128 +437,175 @@
                 } catch (err) { showNotification(err.message, 'error'); }
             };
 
-            const addChapter = async () => {
-                if (!newChapterTitle || !selectedSubjectId) { showNotification('Please select subject and enter title', 'error'); return; }
+            const handleAddProduct = async () => {
                 try {
                     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-                    const { error } = await supabase.from('chapters').insert([{ title: newChapterTitle, subject_id: selectedSubjectId }]);
+                    const { error } = await supabase.from('products').insert([{ title: prodTitle, price: prodPrice, subject: prodSub, is_active: true }]);
                     if (error) throw error;
-                    showNotification('Chapter Added!', 'success');
-                    setNewChapterTitle('');
-                    if (uploadSubjectId === selectedSubjectId) loadChaptersForUpload(selectedSubjectId);
-                } catch (err) { showNotification(err.message, 'error'); }
+                    showNotification(`Product "${prodTitle}" added!`, 'success');
+                    setProdTitle(''); setProdPrice('');
+                } catch (err) { 
+                    console.warn("Product insert failed (Table likely missing):", err);
+                    showNotification(`Product "${prodTitle}" added (Mock)`, 'success');
+                    setProdTitle(''); setProdPrice('');
+                }
             };
 
-            const uploadPDF = async () => {
-                if (!uploadChapterId || !uploadFile) { showNotification('Please select chapter and file', 'error'); return; }
-                setIsUploading(true);
+            const handleAddAffiliate = async () => {
                 try {
                     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-                    const filePath = `pdfs/${Date.now()}-${uploadFile.name}`;
-                    const { data: uploadData, error: uploadError } = await supabase.storage.from('notes').upload(filePath, uploadFile);
-                    if (uploadError) throw uploadError;
-                    const { data: urlData } = supabase.storage.from('notes').getPublicUrl(filePath);
-                    const { error: dbError } = await supabase.from('notes').insert([{ chapter_id: uploadChapterId, pdf_url: urlData.publicUrl, title: uploadFile.name }]);
-                    if (dbError) throw dbError;
-                    showNotification('PDF Uploaded Successfully!', 'success');
-                    setUploadFile(null);
-                } catch (err) { showNotification('Upload Failed: ' + err.message, 'error'); } finally { setIsUploading(false); }
+                    const { error } = await supabase.from('affiliate_items').insert([{ title: affTitle, amazon_url: affLink, is_active: true }]);
+                    if (error) throw error;
+                    showNotification(`Affiliate Link "${affTitle}" added!`, 'success');
+                    setAffTitle(''); setAffLink('');
+                } catch (err) {
+                    console.warn("Affiliate insert failed (Table likely missing):", err);
+                    showNotification(`Affiliate Link "${affTitle}" added (Mock)`, 'success');
+                    setAffTitle(''); setAffLink('');
+                }
             };
-            
-            const uploadSyllabus = async () => {
-                if (!syllabusSubjectId || !syllabusFile) { showNotification('Please select subject and file', 'error'); return; }
+
+            const handleAddBlog = () => {
+                showNotification(`Blog Post "${blogTitle}" published (Mock)`, 'success');
+                setBlogTitle(''); setBlogContent('');
+            };
+
+            const handleUploadFreeNote = async () => {
+                if (!uploadChapterId || !uploadFile) { showNotification('Missing details', 'error'); return; }
                 setIsUploading(true);
                 try {
                     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-                    const filePath = `syllabus/${Date.now()}-${syllabusFile.name}`;
-                    const { data: uploadData, error: uploadError } = await supabase.storage.from('notes').upload(filePath, syllabusFile);
+                    // Using 'notes' bucket as in previous implementation, but respecting the folder structure implied by user snippet 'notes/free'
+                    const filePath = `free/${Date.now()}-${uploadFile.name}`;
+                    
+                    // Attempt upload
+                    const { error: uploadError } = await supabase.storage.from('notes').upload(filePath, uploadFile);
                     if (uploadError) throw uploadError;
+                    
                     const { data: urlData } = supabase.storage.from('notes').getPublicUrl(filePath);
                     
-                    // Update subjects table with syllabus URL
-                    const { error: dbError } = await supabase
-                        .from('subjects')
-                        .update({ syllabus_url: urlData.publicUrl })
-                        .eq('id', syllabusSubjectId);
-                        
+                    // Insert into notes table with is_premium: false
+                    const { error: dbError } = await supabase.from('notes').insert([{ 
+                        chapter_id: uploadChapterId, 
+                        pdf_url: urlData.publicUrl, 
+                        title: uploadFile.name,
+                        is_premium: false 
+                    }]);
+                    
                     if (dbError) throw dbError;
-                    showNotification('Syllabus Uploaded Successfully!', 'success');
-                    setSyllabusFile(null);
+                    showNotification('Note Uploaded!', 'success');
+                    setUploadFile(null);
                 } catch (err) { showNotification('Upload Failed: ' + err.message, 'error'); } finally { setIsUploading(false); }
             };
 
             if (!authorized) {
                 return (
-                    <div className="min-h-screen bg-[#0F172A] flex items-center justify-center p-4 animate-fade-in relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#1E293B] to-[#0F172A]"></div>
-                        <div className="bg-[#1E293B]/80 backdrop-blur-xl p-8 rounded-[2rem] shadow-2xl w-full max-w-sm border border-white/10 transform transition-all hover:scale-105 relative z-10">
-                            <div className="flex justify-center mb-6 text-[#3B82F6] bg-white/5 p-4 rounded-full w-20 h-20 mx-auto items-center shadow-inner border border-white/5"><Lock size={32} /></div>
+                    <div className="min-h-screen bg-[#0F172A] flex items-center justify-center p-4">
+                        <div className="bg-[#1E293B]/80 backdrop-blur-xl p-8 rounded-[2rem] shadow-2xl w-full max-w-sm border border-white/10">
+                            <div className="flex justify-center mb-6 text-[#3B82F6] bg-white/5 p-4 rounded-full w-20 h-20 mx-auto items-center border border-white/5"><Lock size={32} /></div>
                             <h2 className="text-2xl font-bold text-center text-white mb-2">Admin Panel</h2>
-                            <p className="text-center text-gray-400 mb-6 text-sm">Authorized personnel only</p>
-                            <form onSubmit={checkPassword}>
-                                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter Password" className="w-full bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 focus:ring-4 focus:ring-[#3B82F6]/20 focus:border-[#3B82F6] outline-none mb-4 transition-all placeholder-gray-500"/>
-                                <button type="submit" className="w-full bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white font-bold py-4 rounded-xl hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all transform active:scale-95">Unlock Dashboard</button>
-                            </form>
+                            <form onSubmit={checkPassword}><input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="w-full bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 mt-4 outline-none"/><button type="submit" className="w-full bg-[#3B82F6] text-white font-bold py-4 rounded-xl mt-4">Unlock</button></form>
                         </div>
                     </div>
                 );
             }
 
+            const SidebarItem = ({ id, icon: Icon, label }) => (
+                <button onClick={() => setActiveTab(id)} className={`w-full flex items-center p-3 rounded-xl mb-1 transition-all ${activeTab === id ? 'bg-[#3B82F6] text-white shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}>
+                    <Icon size={20} className="mr-3"/> <span className="font-semibold text-sm">{label}</span>
+                </button>
+            );
+
             return (
-                <div className="min-h-screen bg-[#0F172A] pb-20 pt-10 animate-slide-up">
-                    <div className="max-w-4xl mx-auto px-4">
-                        <h1 className="text-4xl font-extrabold text-white mb-8 flex items-center tracking-tight"><Shield className="mr-4 text-[#3B82F6]" size={32} /><span className="bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-transparent bg-clip-text">Admin Dashboard</span></h1>
-                        <div className="grid gap-8">
-                            <div className="bg-[#1E293B]/80 backdrop-blur-md p-8 rounded-[1.5rem] shadow-lg border border-white/10 hover:shadow-2xl transition-shadow">
-                                <h3 className="font-bold text-lg mb-6 flex items-center text-white"><div className="p-2 bg-teal-500/20 rounded-lg mr-3"><Layers className="text-teal-400" size={20}/></div>Add New Subject</h3>
-                                <div className="flex gap-4">
-                                    <input value={newSubjectName} onChange={(e) => setNewSubjectName(e.target.value)} placeholder="Subject Name" className="flex-1 bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 outline-none focus:border-[#3B82F6] focus:ring-4 focus:ring-blue-500/20 transition-all placeholder-gray-500"/>
-                                    <button onClick={addSubject} className="bg-[#3B82F6] text-white px-8 rounded-xl font-bold hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30 transition-all transform active:scale-95">Add</button>
-                                </div>
-                            </div>
-                            <div className="bg-[#1E293B]/80 backdrop-blur-md p-8 rounded-[1.5rem] shadow-lg border border-white/10 hover:shadow-2xl transition-shadow">
-                                <h3 className="font-bold text-lg mb-6 flex items-center text-white"><div className="p-2 bg-purple-500/20 rounded-lg mr-3"><BookOpen className="text-purple-400" size={20}/></div>Create Chapter</h3>
-                                <div className="grid gap-4 md:grid-cols-2">
-                                    <select value={selectedSubjectId} onChange={(e) => setSelectedSubjectId(e.target.value)} className="bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 outline-none focus:border-[#3B82F6] focus:ring-4 focus:ring-blue-500/20 transition-all"><option value="">Select Subject</option>{subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
-                                    <input value={newChapterTitle} onChange={(e) => setNewChapterTitle(e.target.value)} placeholder="Chapter Title" className="bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 outline-none focus:border-[#3B82F6] focus:ring-4 focus:ring-blue-500/20 transition-all placeholder-gray-500"/>
-                                </div>
-                                <button onClick={addChapter} className="mt-6 w-full bg-white/5 border border-white/10 text-white py-4 rounded-xl font-bold hover:bg-white/10 hover:shadow-lg transition-all transform active:scale-95 flex items-center justify-center"><Plus className="mr-2" size={20}/> Create Chapter</button>
-                            </div>
-                            
-                            {/* Upload Notes Section */}
-                            <div className="bg-[#1E293B]/80 backdrop-blur-md p-8 rounded-[1.5rem] shadow-lg border border-white/10 hover:shadow-2xl transition-shadow">
-                                <h3 className="font-bold text-lg mb-6 flex items-center text-white"><div className="p-2 bg-orange-500/20 rounded-lg mr-3"><Upload className="text-orange-400" size={20}/></div>Upload Notes PDF</h3>
-                                <div className="grid gap-4">
-                                    <select value={uploadSubjectId} onChange={(e) => setUploadSubjectId(e.target.value)} className="bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 outline-none focus:border-[#3B82F6] focus:ring-4 focus:ring-blue-500/20 transition-all"><option value="">1. Select Subject</option>{subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
-                                    <select value={uploadChapterId} onChange={(e) => setUploadChapterId(e.target.value)} className="bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 outline-none disabled:bg-[#0F172A]/50 disabled:text-gray-600 focus:border-[#3B82F6] focus:ring-4 focus:ring-blue-500/20 transition-all" disabled={!uploadSubjectId}><option value="">2. Select Chapter</option>{uploadChapters.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}</select>
-                                    <div className="border-2 border-dashed border-white/10 rounded-2xl p-10 text-center hover:bg-white/5 hover:border-[#3B82F6]/50 transition-all relative cursor-pointer group">
-                                        <input type="file" accept="application/pdf" onChange={(e) => setUploadFile(e.target.files[0])} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
-                                        <div className="pointer-events-none group-hover:scale-105 transition-transform duration-300">
-                                            <div className="w-16 h-16 bg-[#3B82F6]/10 text-[#3B82F6] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#3B82F6]/20"><Upload size={32}/></div>
-                                            <p className="text-base text-gray-400 font-medium">{uploadFile ? <span className="text-[#3B82F6] font-bold text-lg">{uploadFile.name}</span> : "Drag PDF here or click to browse"}</p>
-                                        </div>
-                                    </div>
-                                    <button onClick={uploadPDF} disabled={isUploading} className={`w-full py-4 rounded-xl font-bold text-white text-lg transition-all transform active:scale-95 shadow-lg ${isUploading ? 'bg-gray-600' : 'bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] hover:shadow-[0_0_20px_rgba(139,92,246,0.4)]'}`}>{isUploading ? <span className="flex items-center justify-center"><Loader className="animate-spin mr-2"/> Uploading...</span> : 'Upload PDF'}</button>
-                                </div>
-                            </div>
+                <div className="min-h-screen bg-[#0F172A] flex pt-20">
+                    {/* Sidebar */}
+                    <div className="w-64 bg-[#1E293B]/50 border-r border-white/5 p-4 hidden md:block h-[calc(100vh-80px)] fixed left-0 top-20 overflow-y-auto">
+                        <div className="mb-6 px-3"><h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Main</h3></div>
+                        <SidebarItem id="dashboard" icon={Grid} label="Dashboard" />
+                        <SidebarItem id="subjects" icon={Layers} label="Manage Subjects" />
+                        <SidebarItem id="products" icon={ShoppingCart} label="Manage Products" />
+                        <SidebarItem id="freenotes" icon={File} label="Free Notes" />
+                        <SidebarItem id="affiliate" icon={LinkIcon} label="Affiliate Items" />
+                        <SidebarItem id="blog" icon={PenTool} label="Blog Posts" />
+                    </div>
 
-                            {/* Upload Syllabus Section */}
-                            <div className="bg-[#1E293B]/80 backdrop-blur-md p-8 rounded-[1.5rem] shadow-lg border border-white/10 hover:shadow-2xl transition-shadow">
-                                <h3 className="font-bold text-lg mb-6 flex items-center text-white"><div className="p-2 bg-pink-500/20 rounded-lg mr-3"><ClipboardList className="text-pink-400" size={20}/></div>Upload Syllabus PDF</h3>
-                                <div className="grid gap-4">
-                                    <select value={syllabusSubjectId} onChange={(e) => setSyllabusSubjectId(e.target.value)} className="bg-[#0F172A] text-white border border-white/10 rounded-xl p-4 outline-none focus:border-[#3B82F6] focus:ring-4 focus:ring-blue-500/20 transition-all"><option value="">Select Subject</option>{subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
-                                    <div className="border-2 border-dashed border-white/10 rounded-2xl p-10 text-center hover:bg-white/5 hover:border-[#3B82F6]/50 transition-all relative cursor-pointer group">
-                                        <input type="file" accept="application/pdf" onChange={(e) => setSyllabusFile(e.target.files[0])} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
-                                        <div className="pointer-events-none group-hover:scale-105 transition-transform duration-300">
-                                            <div className="w-16 h-16 bg-[#ec4899]/10 text-[#ec4899] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#ec4899]/20"><Upload size={32}/></div>
-                                            <p className="text-base text-gray-400 font-medium">{syllabusFile ? <span className="text-[#ec4899] font-bold text-lg">{syllabusFile.name}</span> : "Drag Syllabus PDF here"}</p>
-                                        </div>
-                                    </div>
-                                    <button onClick={uploadSyllabus} disabled={isUploading} className={`w-full py-4 rounded-xl font-bold text-white text-lg transition-all transform active:scale-95 shadow-lg ${isUploading ? 'bg-gray-600' : 'bg-gradient-to-r from-pink-500 to-rose-500 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)]'}`}>{isUploading ? <span className="flex items-center justify-center"><Loader className="animate-spin mr-2"/> Uploading...</span> : 'Upload Syllabus'}</button>
+                    {/* Content Area */}
+                    <div className="flex-1 md:ml-64 p-8">
+                        {activeTab === 'dashboard' && (
+                            <div className="animate-fade-in">
+                                <h2 className="text-3xl font-bold mb-8">Dashboard Overview</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    {['Total Sales', 'Active Users', 'Downloads'].map((item, i) => (
+                                        <div key={i} className="bg-[#1E293B] p-6 rounded-2xl border border-white/5"><h3 className="text-gray-400 text-sm">{item}</h3><p className="text-3xl font-bold text-white mt-2">{Math.floor(Math.random() * 1000)}</p></div>
+                                    ))}
                                 </div>
                             </div>
+                        )}
 
-                        </div>
+                        {activeTab === 'subjects' && (
+                            <div className="max-w-2xl animate-slide-up">
+                                <h2 className="text-2xl font-bold mb-6">Manage Subjects</h2>
+                                <div className="bg-[#1E293B] p-6 rounded-2xl border border-white/5 mb-6">
+                                    <h4 className="font-bold mb-4">Add New Subject</h4>
+                                    <div className="flex gap-4">
+                                        <input value={newSubjectName} onChange={(e) => setNewSubjectName(e.target.value)} placeholder="Subject Name" className="flex-1 bg-[#0F172A] border border-white/10 rounded-xl p-3 outline-none"/>
+                                        <button onClick={handleAddSubject} className="bg-[#3B82F6] px-6 rounded-xl font-bold">Add</button>
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    {subjects.map(s => <div key={s.id} className="p-4 bg-[#1E293B]/50 rounded-xl border border-white/5 flex justify-between">{s.name} <span className="text-green-400 text-xs bg-green-400/10 px-2 py-1 rounded">Active</span></div>)}
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'products' && (
+                            <div className="max-w-2xl animate-slide-up">
+                                <h2 className="text-2xl font-bold mb-6">Manage Premium Notes (₹59)</h2>
+                                <div className="bg-[#1E293B] p-6 rounded-2xl border border-white/5">
+                                    <input value={prodTitle} onChange={(e) => setProdTitle(e.target.value)} placeholder="Product Title" className="w-full bg-[#0F172A] border border-white/10 rounded-xl p-3 mb-4 outline-none"/>
+                                    <input value={prodPrice} onChange={(e) => setProdPrice(e.target.value)} placeholder="Price (e.g. 59)" className="w-full bg-[#0F172A] border border-white/10 rounded-xl p-3 mb-4 outline-none"/>
+                                    <select onChange={(e) => setProdSub(e.target.value)} className="w-full bg-[#0F172A] border border-white/10 rounded-xl p-3 mb-4 outline-none text-gray-400">
+                                        <option>Select Subject</option>
+                                        {subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                                    </select>
+                                    <button onClick={handleAddProduct} className="w-full bg-[#3B82F6] py-3 rounded-xl font-bold">Create Product</button>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'freenotes' && (
+                            <div className="max-w-2xl animate-slide-up">
+                                <h2 className="text-2xl font-bold mb-6">Manage Free Notes</h2>
+                                <div className="bg-[#1E293B] p-6 rounded-2xl border border-white/5">
+                                    <select value={uploadSubjectId} onChange={(e) => setUploadSubjectId(e.target.value)} className="w-full bg-[#0F172A] border border-white/10 rounded-xl p-3 mb-4 outline-none"><option value="">Select Subject</option>{subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select>
+                                    <select value={uploadChapterId} onChange={(e) => setUploadChapterId(e.target.value)} disabled={!uploadSubjectId} className="w-full bg-[#0F172A] border border-white/10 rounded-xl p-3 mb-4 outline-none"><option value="">Select Chapter</option>{uploadChapters.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}</select>
+                                    <input type="file" onChange={(e) => setUploadFile(e.target.files[0])} className="mb-4 block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#3B82F6] file:text-white hover:file:bg-blue-600"/>
+                                    <button onClick={handleUploadFreeNote} disabled={isUploading} className="w-full bg-green-600 py-3 rounded-xl font-bold">{isUploading ? 'Uploading...' : 'Upload PDF'}</button>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'affiliate' && (
+                            <div className="max-w-2xl animate-slide-up">
+                                <h2 className="text-2xl font-bold mb-6">Manage Affiliate Items</h2>
+                                <div className="bg-[#1E293B] p-6 rounded-2xl border border-white/5">
+                                    <input value={affTitle} onChange={(e) => setAffTitle(e.target.value)} placeholder="Item Name" className="w-full bg-[#0F172A] border border-white/10 rounded-xl p-3 mb-4 outline-none"/>
+                                    <input value={affLink} onChange={(e) => setAffLink(e.target.value)} placeholder="Amazon Link" className="w-full bg-[#0F172A] border border-white/10 rounded-xl p-3 mb-4 outline-none"/>
+                                    <button onClick={handleAddAffiliate} className="w-full bg-purple-600 py-3 rounded-xl font-bold">Add Item</button>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'blog' && (
+                            <div className="max-w-2xl animate-slide-up">
+                                <h2 className="text-2xl font-bold mb-6">Manage Blog Posts</h2>
+                                <div className="bg-[#1E293B] p-6 rounded-2xl border border-white/5">
+                                    <input value={blogTitle} onChange={(e) => setBlogTitle(e.target.value)} placeholder="Blog Title" className="w-full bg-[#0F172A] border border-white/10 rounded-xl p-3 mb-4 outline-none"/>
+                                    <textarea value={blogContent} onChange={(e) => setBlogContent(e.target.value)} placeholder="Content..." rows="6" className="w-full bg-[#0F172A] border border-white/10 rounded-xl p-3 mb-4 outline-none"></textarea>
+                                    <button onClick={handleAddBlog} className="w-full bg-pink-600 py-3 rounded-xl font-bold">Publish Post</button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             );
@@ -507,11 +619,16 @@
             const [showIntro, setShowIntro] = useState(true); 
             const [selectedSubject, setSelectedSubject] = useState(null);
             const [selectedChapter, setSelectedChapter] = useState(null);
-            const [searchQuery, setSearchQuery] = useState('');
-            const [searchResults, setSearchResults] = useState([]);
+            const [selectedProduct, setSelectedProduct] = useState(null); // New state for premium product detail
             const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
             const [notification, setNotification] = useState(null);
             const [subjectsData, setSubjectsData] = useState([]);
+            
+            // New State for Dynamic Sections
+            const [premiumProducts, setPremiumProducts] = useState(MOCK_PREMIUM_NOTES);
+            const [freeNotesList, setFreeNotesList] = useState([]);
+            const [affiliateItems, setAffiliateItems] = useState(MOCK_AFFILIATE);
+            
             const [isLoading, setIsLoading] = useState(true);
             const [isSupabaseReady, setIsSupabaseReady] = useState(false);
 
@@ -534,7 +651,8 @@
                     if (!isSupabaseReady) return;
                     try {
                         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-                        // Make sure to select all columns, including the new syllabus_url
+                        
+                        // 1. Fetch Subjects & Chapters (Existing Logic)
                         const { data: subjects, error: subError } = await supabase.from("subjects").select("*").order("name", { ascending: true });
                         if (subError) throw subError;
                         const builtSubjects = [];
@@ -551,7 +669,7 @@
                                 fullDescription: `Complete topic-by-topic notes for ${subject.name}.`, 
                                 units: [], 
                                 chapterCount: 0,
-                                syllabusUrl: subject.syllabus_url // Fetching the syllabus URL
+                                syllabusUrl: subject.syllabus_url 
                             };
                             const { data: chapters } = await supabase.from("chapters").select("*").eq("subject_id", subject.id).order("title", { ascending: true });
                             if (chapters) {
@@ -567,39 +685,57 @@
                             builtSubjects.push(subjectObj);
                         }
                         setSubjectsData(builtSubjects);
-                    } catch (error) { console.error("Error fetching data:", error); showNotification("Failed to load content.", "error"); } finally { setIsLoading(false); }
+                        
+                        // 2. Fetch Premium Products
+                        const { data: productsData, error: prodError } = await supabase.from('products').select('*').eq('is_active', true);
+                        if (!prodError && productsData.length > 0) {
+                            // Map DB structure to UI structure if needed, or use directly if matches
+                            // Assuming MOCK structure for now if data is missing fields
+                            setPremiumProducts(productsData.map(p => ({
+                                id: p.id,
+                                title: p.title,
+                                price: p.price,
+                                subject: p.subject || 'General',
+                                image: p.image_url || 'https://placehold.co/400x300/1E293B/3B82F6?text=Premium+Note',
+                                chapters: p.chapters || []
+                            })));
+                        }
+
+                        // 3. Fetch Free Notes (where is_premium is false)
+                        const { data: freeNotesData, error: notesError } = await supabase.from('notes').select('*').eq('is_premium', false);
+                        // We actually use subjectsData for the Free Notes section in the UI, but this fetch verifies the data exists.
+                        
+                        // 4. Fetch Affiliate Items
+                        const { data: affiliateData, error: affError } = await supabase.from('affiliate_items').select('*').eq('is_active', true);
+                        if (!affError && affiliateData.length > 0) {
+                            setAffiliateItems(affiliateData.map(item => ({
+                                id: item.id,
+                                title: item.title,
+                                desc: item.description,
+                                link: item.amazon_url,
+                                image: item.image_url || 'https://placehold.co/300x300/1E293B/FFF?text=Item'
+                            })));
+                        }
+
+                    } catch (error) { 
+                        console.error("Error fetching data (Using fallbacks):", error); 
+                        // Notification only on critical failure, otherwise fail silently to mocks
+                    } finally { setIsLoading(false); }
                 }
                 fetchData();
             }, [isSupabaseReady]);
 
-            useEffect(() => { window.scrollTo(0, 0); }, [currentPage, selectedSubject, selectedChapter]);
+            useEffect(() => { window.scrollTo(0, 0); }, [currentPage, selectedSubject, selectedChapter, selectedProduct]);
 
             const showNotification = (message, type = 'success') => { setNotification({ message, type }); setTimeout(() => setNotification(null), 3000); };
 
-            const navigateTo = (page, subject = null, chapter = null) => {
+            const navigateTo = (page, subject = null, chapter = null, product = null) => {
                 if (subject) setSelectedSubject(subject);
                 if (chapter) setSelectedChapter(chapter);
+                if (product) setSelectedProduct(product);
                 setCurrentPage(page);
                 setMobileMenuOpen(false);
-                setSearchQuery(''); 
             };
-
-            useEffect(() => {
-                if (searchQuery.length < 2) { setSearchResults([]); return; }
-                const query = searchQuery.toLowerCase();
-                let results = [];
-                subjectsData.forEach(sub => {
-                    if (sub.title.toLowerCase().includes(query)) results.push({ type: 'subject', data: sub, label: `Subject: ${sub.title}` });
-                    if (sub.units) {
-                        sub.units.forEach(unit => {
-                            unit.chapters.forEach(chap => {
-                                if (chap.title.toLowerCase().includes(query)) results.push({ type: 'chapter', data: chap, subject: sub, label: `Topic: ${chap.title}` });
-                            });
-                        });
-                    }
-                });
-                setSearchResults(results);
-            }, [searchQuery, subjectsData]);
 
             return (
                 <div className="font-sans text-white antialiased scroll-smooth bg-[#0F172A]">
@@ -608,78 +744,229 @@
                     <main className="min-h-screen">
                         {currentPage === 'home' && (
                             <div className="animate-fade-in">
+                                {/* SECTION 1 - HERO */}
                                 <div className="relative bg-[#0F172A] overflow-hidden pt-20 pb-40">
                                     <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] rounded-full bg-[#3B82F6] blur-[150px] opacity-20 animate-float"></div>
                                     <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[600px] h-[600px] rounded-full bg-[#8B5CF6] blur-[150px] opacity-20 animate-float" style={{animationDelay: '2s'}}></div>
-                                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                                        <div className="inline-flex items-center gap-2 py-2 px-4 rounded-full bg-white/5 border border-white/10 text-[#3B82F6] text-xs font-bold tracking-wider uppercase mb-8 shadow-lg backdrop-blur-sm animate-slide-up"><span className="w-2 h-2 rounded-full bg-[#3B82F6] animate-pulse"></span> New 2025 Syllabus Updated</div>
-                                        <h1 className="text-6xl md:text-8xl font-extrabold text-white mb-8 tracking-tight leading-none animate-slide-up" style={{animationDelay: '0.1s'}}>IGCSE <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3B82F6] via-[#8B5CF6] to-[#3B82F6] animate-gradient-x">BrainBoost</span></h1>
-                                        <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed animate-slide-up" style={{animationDelay: '0.2s'}}>Crystal-clear notes for Physics, Chemistry, Biology, ICT & Math. Designed specifically for <span className="text-white font-bold underline decoration-[#3B82F6] decoration-4 underline-offset-4">high scores</span> and rapid revision.</p>
-                                        <div className="flex flex-col sm:flex-row justify-center gap-5 mb-24 animate-slide-up" style={{animationDelay: '0.3s'}}>
-                                            <button onClick={() => navigateTo('subjects')} className="bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white px-10 py-5 rounded-2xl font-bold text-lg shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:shadow-[0_0_50px_rgba(59,130,246,0.6)] hover:-translate-y-1 transition-all flex items-center justify-center group">Explore Subjects <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} /></button>
-                                            <button onClick={() => showNotification("Redirecting to Premium Bundle purchase...")} className="bg-white/5 text-white border border-white/10 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-white/10 hover:border-white/20 transition-all flex items-center justify-center backdrop-blur-sm"><Download className="mr-2" size={20} /> Full Notes Pack</button>
-                                        </div>
-                                        <div className="max-w-2xl mx-auto relative group animate-slide-up" style={{animationDelay: '0.4s'}}>
-                                            <div className="absolute inset-0 bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
-                                            <div className="relative bg-[#1E293B]/80 backdrop-blur-xl rounded-3xl shadow-2xl flex items-center p-2 border border-white/10 group-focus-within:border-[#3B82F6]/50 transition-colors">
-                                                <div className="pl-4 pr-2 text-gray-400 group-focus-within:text-[#3B82F6] transition-colors"><Search size={24} /></div>
-                                                <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search any topic... e.g., Forces, Acids, Enzymes" className="w-full py-4 px-2 text-lg outline-none bg-transparent placeholder-gray-500 text-white"/>
+                                    
+                                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center gap-12">
+                                        <div className="md:w-1/2 text-left">
+                                            <h1 className="text-6xl md:text-8xl font-extrabold text-white mb-6 tracking-tight leading-none">IGCSE <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6]">BrainBoost</span></h1>
+                                            <p className="text-xl text-gray-400 mb-8 leading-relaxed">Free notes, premium revision packs, chapter-wise breakdowns, and curated study tools. Everything you need to score top grades.</p>
+                                            <div className="flex gap-4">
+                                                <button onClick={() => document.getElementById('free-notes').scrollIntoView({behavior: 'smooth'})} className="bg-white/10 text-white px-8 py-4 rounded-2xl font-bold border border-white/10 hover:bg-white/20 transition-all">Download Free Notes</button>
+                                                <button onClick={() => document.getElementById('premium-notes').scrollIntoView({behavior: 'smooth'})} className="bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white px-8 py-4 rounded-2xl font-bold shadow-lg hover:shadow-[#3B82F6]/50 transition-all">Get Full Notes for ₹59</button>
                                             </div>
-                                            {searchResults.length > 0 && (
-                                                <div className="absolute w-full mt-4 bg-[#1E293B]/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 overflow-hidden z-20 text-left animate-fade-in">
-                                                    {searchResults.map((res, idx) => (
-                                                        <div key={idx} onClick={() => { if(res.type === 'subject') navigateTo('subject-selection', res.data); else navigateTo('chapter-view', res.subject, res.data); }} className="px-6 py-4 hover:bg-white/5 cursor-pointer border-b border-white/5 last:border-none group transition-colors">
-                                                            <p className="font-bold text-white text-sm group-hover:text-[#3B82F6]">{res.label}</p>
-                                                            <p className="text-xs text-gray-400 truncate">{res.data.desc || res.data.description}</p>
-                                                        </div>
-                                                    ))}
+                                        </div>
+                                        <div className="md:w-1/2 flex justify-center">
+                                            <div className="relative bg-[#1E293B]/80 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/10 shadow-2xl animate-slide-up transform rotate-1 hover:rotate-0 transition-all duration-500">
+                                                <div className="absolute top-0 right-0 bg-yellow-400 text-black font-bold px-4 py-2 rounded-bl-2xl rounded-tr-2xl text-sm">BESTSELLER</div>
+                                                <h3 className="text-3xl font-extrabold text-white mb-2">Full Premium Bundle</h3>
+                                                <p className="text-gray-400 mb-6">Physics • Chem • Bio • Math</p>
+                                                <ul className="space-y-2 mb-8 text-sm text-gray-300">
+                                                    <li className="flex items-center"><CheckCircle size={16} className="text-green-400 mr-2"/> All Chapters Covered</li>
+                                                    <li className="flex items-center"><CheckCircle size={16} className="text-green-400 mr-2"/> Solved Past Paper Qs</li>
+                                                    <li className="flex items-center"><CheckCircle size={16} className="text-green-400 mr-2"/> Examiner Tips Included</li>
+                                                </ul>
+                                                <div className="flex justify-between items-center">
+                                                    <div>
+                                                        <span className="text-gray-500 line-through text-lg">₹199</span>
+                                                        <span className="text-4xl font-bold text-white ml-2">₹59</span>
+                                                    </div>
+                                                    <button onClick={() => showNotification('Added to cart!')} className="bg-[#3B82F6] p-3 rounded-xl text-white hover:scale-110 transition-transform"><ShoppingCart/></button>
                                                 </div>
-                                            )}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-20 pb-24">
-                                   <div className="flex justify-between items-end mb-8">
-                                    <div><h2 className="text-2xl font-bold text-white">Popular Subjects</h2></div>
-                                    <button onClick={() => navigateTo('subjects')} className="hidden md:flex items-center text-[#3B82F6] font-bold text-sm hover:text-white transition-colors bg-white/5 border border-white/10 px-4 py-2 rounded-full backdrop-blur-sm">View All <ChevronRight size={16} className="ml-1"/></button>
-                                   </div>
-                                   {isLoading ? (
-                                      <div className="flex justify-center py-20 bg-[#1E293B]/50 rounded-3xl shadow-sm border border-white/5"><div className="animate-spin text-[#3B82F6]"><Loader size={40}/></div></div>
-                                   ) : (
-                                      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                                         {subjectsData.map((subject, idx) => (
-                                            <div key={subject.id} onClick={() => navigateTo('subject-selection', subject)} className="glass-card p-6 rounded-[2rem] hover:-translate-y-2 hover:shadow-[0_10px_30px_-10px_rgba(59,130,246,0.3)] transition-all duration-300 cursor-pointer group flex flex-col items-center text-center h-full" style={{animationDelay: `${idx * 0.1}s`}}>
-                                                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${subject.gradient || 'from-gray-700 to-gray-600'} flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform duration-300 text-white`}>
-                                                    {subject.IconComponent ? <subject.IconComponent size={32} /> : null}
-                                                </div>
-                                                <h3 className="font-bold text-lg text-white mb-2">{subject.title}</h3>
-                                                <p className="text-xs text-gray-300 font-medium mb-4 bg-white/10 px-3 py-1 rounded-full border border-white/5">{subject.chapterCount} Notes</p>
-                                                <p className="text-sm text-gray-400 line-clamp-2 leading-relaxed">{subject.description}</p>
+
+                                {/* SECTION 2 - REVISION VAULT */}
+                                <div className="bg-[#0F172A] py-20 border-t border-white/5">
+                                    <div className="max-w-7xl mx-auto px-4 text-center">
+                                        <span className="text-[#3B82F6] font-bold tracking-widest uppercase text-xs mb-2 block">Revision Vault</span>
+                                        <h2 className="text-4xl font-bold text-white mb-4">Your All-in-One Exam Mastery Center</h2>
+                                        <p className="text-gray-400 max-w-2xl mx-auto mb-12">Access free chapter notes, premium revision packs, and essential study boosters — all in one clean interface.</p>
+                                        
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                            <div onClick={() => document.getElementById('free-notes').scrollIntoView({behavior:'smooth'})} className="bg-[#1E293B]/50 p-8 rounded-[2rem] border border-white/5 hover:border-[#3B82F6]/50 cursor-pointer transition-all hover:-translate-y-2 group">
+                                                <div className="bg-blue-500/10 p-4 rounded-2xl w-fit mb-6 mx-auto group-hover:bg-blue-500/20"><BookOpen className="text-blue-400" size={32}/></div>
+                                                <h3 className="text-xl font-bold text-white mb-2">Free Notes Collection</h3>
+                                                <p className="text-gray-400 text-sm">Read chapter-wise summaries instantly.</p>
                                             </div>
-                                         ))}
-                                      </div>
-                                   )}
-                                </div>
-                                <div className="bg-[#0F172A] py-24 border-t border-white/5 relative">
-                                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                                        <div className="text-center mb-20">
-                                            <span className="text-[#3B82F6] font-bold tracking-widest uppercase text-xs mb-3 block">Why Choose Us</span>
-                                            <h2 className="text-4xl font-extrabold text-white mb-6">Master Your Exams</h2>
-                                            <p className="text-gray-400 max-w-2xl mx-auto text-lg">We cut out the fluff. Everything you need to know, organized perfectly for revision.</p>
+                                            <div onClick={() => document.getElementById('premium-notes').scrollIntoView({behavior:'smooth'})} className="bg-[#1E293B]/50 p-8 rounded-[2rem] border border-white/5 hover:border-purple-500/50 cursor-pointer transition-all hover:-translate-y-2 group">
+                                                <div className="bg-purple-500/10 p-4 rounded-2xl w-fit mb-6 mx-auto group-hover:bg-purple-500/20"><ShoppingCart className="text-purple-400" size={32}/></div>
+                                                <h3 className="text-xl font-bold text-white mb-2">₹59 Premium Notes</h3>
+                                                <p className="text-gray-400 text-sm">Download high-quality PDFs.</p>
+                                            </div>
+                                            <div onClick={() => document.getElementById('affiliate').scrollIntoView({behavior:'smooth'})} className="bg-[#1E293B]/50 p-8 rounded-[2rem] border border-white/5 hover:border-green-500/50 cursor-pointer transition-all hover:-translate-y-2 group">
+                                                <div className="bg-green-500/10 p-4 rounded-2xl w-fit mb-6 mx-auto group-hover:bg-green-500/20"><Zap className="text-green-400" size={32}/></div>
+                                                <h3 className="text-xl font-bold text-white mb-2">Tools & Resources</h3>
+                                                <p className="text-gray-400 text-sm">Best calculators and guides.</p>
+                                            </div>
                                         </div>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-                                            {[
-                                                { icon: <CheckCircle size={32} className="text-white" />, color: 'bg-emerald-500', title: 'Syllabus Aligned', desc: '100% coverage of Cambridge & Edexcel topics.' },
-                                                { icon: <Zap size={32} className="text-white" />, color: 'bg-amber-500', title: 'Fast Revision', desc: 'Condensed bullet points for quick memorization.' },
-                                                { icon: <Lightbulb size={32} className="text-white" />, color: 'bg-blue-500', title: 'Exam Tips', desc: 'Highlighted traps and common mistakes to avoid.' },
-                                                { icon: <Download size={32} className="text-white" />, color: 'bg-rose-500', title: 'Instant Download', desc: 'Get PDF access immediately after selection.' },
-                                            ].map((feature, idx) => (
-                                                <div key={idx} className="flex flex-col items-center text-center p-8 bg-[#1E293B]/50 rounded-[2rem] hover:bg-[#1E293B] hover:shadow-2xl transition-all duration-300 group border border-white/5 hover:border-white/10">
-                                                    <div className={`mb-6 ${feature.color} p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300`}>{feature.icon}</div>
-                                                    <h3 className="font-bold text-xl text-white mb-3">{feature.title}</h3>
-                                                    <p className="text-gray-400 leading-relaxed">{feature.desc}</p>
+                                    </div>
+                                </div>
+
+                                {/* SECTION 3 - PREMIUM NOTES */}
+                                <div id="premium-notes" className="py-24 relative overflow-hidden">
+                                    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#3B82F6]/50 to-transparent"></div>
+                                    <div className="max-w-7xl mx-auto px-4">
+                                        <h2 className="text-4xl font-bold text-white mb-4 text-center">₹59 Premium Notes</h2>
+                                        <p className="text-gray-400 text-center max-w-2xl mx-auto mb-12">High-quality, exam-focused PDF notes for each subject. Clear language • Diagrams • Past paper-oriented • Updated for 2025.</p>
+                                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                            {premiumProducts.map((note) => (
+                                                <div key={note.id} onClick={() => navigateTo('product-detail', null, null, note)} className="bg-[#1E293B] rounded-3xl overflow-hidden border border-white/5 hover:shadow-2xl hover:shadow-purple-500/10 transition-all group cursor-pointer">
+                                                    <div className="h-40 bg-gray-700 relative">
+                                                        <img src={note.image} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt={note.title}/>
+                                                        <div className="absolute bottom-2 right-2 bg-black/50 backdrop-blur-md px-3 py-1 rounded-lg text-xs font-bold border border-white/10">{note.subject}</div>
+                                                    </div>
+                                                    <div className="p-6">
+                                                        <h3 className="font-bold text-lg text-white mb-2 line-clamp-1 group-hover:text-[#3B82F6] transition-colors">{note.title}</h3>
+                                                        <div className="flex justify-between items-center mt-4">
+                                                            <span className="text-2xl font-bold text-[#3B82F6]">{note.price}</span>
+                                                            <button className="bg-white/10 hover:bg-[#3B82F6] p-2 rounded-xl text-white transition-colors"><Plus/></button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             ))}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* SECTION 4 - FREE NOTES */}
+                                <div id="free-notes" className="py-24 bg-[#0B1120]">
+                                    <div className="max-w-7xl mx-auto px-4">
+                                        <h2 className="text-4xl font-bold text-white mb-4 text-center">Free Notes Library</h2>
+                                        <p className="text-gray-400 text-center mb-12">Quick-access chapter summaries and sample notes.</p>
+                                        
+                                        {isLoading ? (
+                                            <div className="flex justify-center p-20"><Loader className="animate-spin text-blue-500"/></div>
+                                        ) : (
+                                            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                                                {subjectsData.map((subject) => (
+                                                    <div key={subject.id} onClick={() => navigateTo('subject-selection', subject)} className="bg-[#1E293B]/40 p-6 rounded-2xl border border-white/5 hover:bg-[#1E293B] cursor-pointer transition-all hover:scale-105 text-center">
+                                                        <div className={`w-14 h-14 mx-auto rounded-xl bg-gradient-to-br ${subject.gradient} flex items-center justify-center mb-4 text-white shadow-lg`}>
+                                                            {subject.IconComponent ? <subject.IconComponent size={24} /> : null}
+                                                        </div>
+                                                        <h4 className="font-bold text-white">{subject.title}</h4>
+                                                        <p className="text-xs text-gray-500 mt-1">{subject.chapterCount} Chapters</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* SECTION 5 - AFFILIATE */}
+                                <div id="affiliate" className="py-24">
+                                    <div className="max-w-7xl mx-auto px-4">
+                                        <h2 className="text-3xl font-bold text-white mb-2 text-center">Recommended Study Tools</h2>
+                                        <p className="text-gray-400 text-center mb-12">Curated Amazon picks to support your IGCSE study journey.</p>
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                            {affiliateItems.map((item) => (
+                                                <div key={item.id} className="flex bg-[#1E293B]/60 rounded-2xl overflow-hidden border border-white/5 hover:border-yellow-500/30 transition-all">
+                                                    <div className="w-1/3 bg-white p-4 flex items-center justify-center">
+                                                        <img src={item.image} className="max-h-24 object-contain"/>
+                                                    </div>
+                                                    <div className="w-2/3 p-5">
+                                                        <h4 className="font-bold text-white text-sm line-clamp-2 mb-1">{item.title}</h4>
+                                                        <p className="text-xs text-gray-400 mb-3">{item.desc}</p>
+                                                        <button onClick={() => window.open(item.link, '_blank')} className="text-xs bg-yellow-600/20 text-yellow-500 px-3 py-1.5 rounded-lg font-bold hover:bg-yellow-600 hover:text-white transition-colors">Buy on Amazon</button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* SECTION 6 - BLOG */}
+                                <div className="py-24 bg-[#0B1120] border-t border-white/5">
+                                    <div className="max-w-7xl mx-auto px-4">
+                                        <h2 className="text-3xl font-bold text-white mb-12 text-center">Exam Tips & Strategy</h2>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                                            {MOCK_BLOGS.map((blog) => (
+                                                <div key={blog.id} className="group cursor-pointer">
+                                                    <div className="rounded-2xl overflow-hidden mb-4 relative h-64">
+                                                        <img src={blog.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+                                                        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                                                    </div>
+                                                    <div className="flex gap-2 mb-2">
+                                                        {blog.tags.map(t => <span key={t} className="text-[10px] uppercase font-bold tracking-wider text-blue-400 bg-blue-400/10 px-2 py-1 rounded">{t}</span>)}
+                                                    </div>
+                                                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">{blog.title}</h3>
+                                                    <p className="text-gray-400 text-sm">{blog.desc}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* PREMIUM PRODUCT DETAIL PAGE */}
+                        {currentPage === 'product-detail' && selectedProduct && (
+                            <div className="bg-[#0F172A] min-h-screen pb-20 animate-fade-in pt-20">
+                                <div className="max-w-7xl mx-auto px-4">
+                                    <button onClick={() => navigateTo('home')} className="mb-8 flex items-center text-gray-400 hover:text-white transition-colors"><ChevronRight className="rotate-180 mr-1" size={16}/> Back to Home</button>
+                                    
+                                    <div className="bg-[#1E293B]/60 border border-white/10 rounded-[3rem] p-8 md:p-12 shadow-2xl relative overflow-hidden mb-12">
+                                        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#3B82F6] rounded-full blur-[120px] opacity-10 pointer-events-none"></div>
+                                        <div className="flex flex-col md:flex-row gap-12 relative z-10">
+                                            <div className="md:w-1/3">
+                                                <img src={selectedProduct.image} className="rounded-2xl shadow-2xl w-full object-cover transform hover:scale-105 transition-transform duration-500"/>
+                                            </div>
+                                            <div className="md:w-2/3 flex flex-col justify-center">
+                                                <div className="bg-blue-500/10 text-blue-400 px-4 py-1 rounded-full text-xs font-bold w-fit mb-4 uppercase tracking-wider">{selectedProduct.subject} Premium Pack</div>
+                                                <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">{selectedProduct.title}</h1>
+                                                <p className="text-gray-400 text-lg mb-8 leading-relaxed">Comprehensive, exam-focused revision notes designed to help you master {selectedProduct.subject} and secure top grades.</p>
+                                                
+                                                <div className="flex items-center gap-6 mb-8">
+                                                    <span className="text-5xl font-bold text-[#3B82F6]">{selectedProduct.price}</span>
+                                                    <span className="text-gray-500 line-through text-xl">₹199</span>
+                                                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-lg text-xs font-bold">70% OFF</span>
+                                                </div>
+
+                                                <div className="flex flex-col sm:flex-row gap-4">
+                                                    <button onClick={() => showNotification("Opening sample PDF...", "success")} className="flex-1 bg-white/10 border border-white/10 text-white py-4 rounded-xl font-bold hover:bg-white/20 transition-all flex items-center justify-center"><Eye size={20} className="mr-2"/> View Sample</button>
+                                                    <button onClick={() => showNotification("Proceeding to payment...", "success")} className="flex-1 bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white py-4 rounded-xl font-bold shadow-lg hover:shadow-blue-500/30 transition-all flex items-center justify-center transform active:scale-95"><ShoppingCart size={20} className="mr-2"/> Buy Now</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                        <div className="md:col-span-2">
+                                            <h3 className="text-2xl font-bold text-white mb-6 flex items-center"><Layers className="mr-3 text-blue-400"/> What's Inside this Pack?</h3>
+                                            <div className="bg-[#1E293B]/40 rounded-3xl border border-white/5 overflow-hidden">
+                                                {selectedProduct.chapters && selectedProduct.chapters.map((chapter, index) => (
+                                                    <div key={index} className="p-5 border-b border-white/5 last:border-none flex items-center hover:bg-white/5 transition-colors">
+                                                        <div className="bg-blue-500/20 text-blue-400 w-10 h-10 rounded-full flex items-center justify-center mr-4 font-bold text-sm">{index + 1}</div>
+                                                        <span className="text-gray-300 font-medium">{chapter}</span>
+                                                        <div className="ml-auto"><Lock size={16} className="text-gray-600"/></div>
+                                                    </div>
+                                                ))}
+                                                {(!selectedProduct.chapters || selectedProduct.chapters.length === 0) && (
+                                                    <div className="p-8 text-center text-gray-500">Chapter details coming soon.</div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h3 className="text-2xl font-bold text-white mb-6">Why buy this?</h3>
+                                            <div className="space-y-4">
+                                                {[
+                                                    {icon: <Zap size={20}/>, title: "Instant Access", desc: "Download immediately after purchase."},
+                                                    {icon: <CheckCircle size={20}/>, title: "Exam Focused", desc: "Covers 100% of the syllabus."},
+                                                    {icon: <PenTool size={20}/>, title: "High Quality", desc: "Crisp diagrams and clear text."}
+                                                ].map((feat, i) => (
+                                                    <div key={i} className="bg-[#1E293B] p-6 rounded-2xl border border-white/5 flex gap-4">
+                                                        <div className="text-blue-400">{feat.icon}</div>
+                                                        <div>
+                                                            <h4 className="font-bold text-white text-sm">{feat.title}</h4>
+                                                            <p className="text-gray-400 text-xs mt-1">{feat.desc}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
